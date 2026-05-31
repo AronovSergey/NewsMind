@@ -68,7 +68,7 @@ When starting a Claude Code session, tell it which task you're on:
 ## Phase 2 — RSS Fetcher service
 > First service. Proves the pipeline skeleton end-to-end.
 
-- [ ] **Task 9** — Scaffold RSS Fetcher via Spring Initializr
+- [x] **Task 9** — Scaffold RSS Fetcher via Spring Initializr
   - **YOU run this** at start.spring.io: Spring AMQP, Spring JDBC, Lombok, Actuator
   - Save output to `/services/rss-fetcher/`
   - **Commit:** `chore: scaffold rss-fetcher`
