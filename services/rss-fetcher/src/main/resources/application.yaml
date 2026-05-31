@@ -1,3 +1,22 @@
 spring:
   application:
     name: rss-fetcher
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+  datasource:
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/newsmind}
+    username: ${POSTGRES_USERNAME:newsmind}
+    password: ${POSTGRES_PASSWORD:newsmind}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+logging:
+  level:
+    com.newsmind: ${LOG_LEVEL:INFO}

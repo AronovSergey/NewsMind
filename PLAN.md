@@ -73,7 +73,7 @@ When starting a Claude Code session, tell it which task you're on:
   - Save output to `/services/rss-fetcher/`
   - **Commit:** `chore: scaffold rss-fetcher`
 
-- [ ] **Task 10** — RabbitMQ config + exchange declaration
+- [x] **Task 10** — RabbitMQ config + exchange declaration
   - `RabbitMQConfig.java`: declare `news.fetched` fanout exchange, queue, binding
   - **Validate:** service starts → exchange visible in RabbitMQ management UI (localhost:15672)
   - **Commit:** `feat(rss-fetcher): rabbitmq config and exchange`
