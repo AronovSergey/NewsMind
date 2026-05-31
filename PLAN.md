@@ -57,7 +57,7 @@ When starting a Claude Code session, tell it which task you're on:
   - **Validate:** `psql -c "\d articles"` shows all columns including vector
   - **Commit:** `feat: postgres schema with pgvector`
 
-- [ ] **Task 8** — Create shared Maven parent pom.xml
+- [x] **Task 8** — Create shared Maven parent pom.xml
   - Root `pom.xml` with `<modules>` for all four services
   - Manage dependency versions: Spring Boot 3, Spring AMQP, pgvector-java, openai-java, Lombok
   - Each service `pom.xml` declares `<parent>` pointing here
