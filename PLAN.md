@@ -33,13 +33,13 @@ When starting a Claude Code session, tell it which task you're on:
   - **Validate:** push a commit → Actions tab shows green
   - **Commit:** `ci: add GitHub Actions skeleton`
 
-- [ ] **Task 5** — Provision Hetzner CX21 VM
+- [x] **Task 5** — Provision Hetzner CX21 VM
   - 2 vCPU, 4GB RAM (~€5/month)
   - SSH in, install Docker + Docker Compose, create deploy user
   - Open ports: 22, 80, 443, 8080
   - *(No commit — server setup)*
 
-- [ ] **Task 6** — Add CD step — deploy infra to VM
+- [x] **Task 6** — Add CD step — deploy infra to VM
   - GitHub Actions deploy job (on push to `main`): SSH to VM → `git pull` → `docker compose up -d`
   - Add SSH private key as GitHub secret (`VM_SSH_KEY`), also add `VM_HOST` and `VM_USER`
   - **Validate:** push to main → infra starts on VM automatically
