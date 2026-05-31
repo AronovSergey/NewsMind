@@ -50,7 +50,7 @@ When starting a Claude Code session, tell it which task you're on:
 ## Phase 1 — Database schema + shared models
 > Foundation that all services depend on.
 
-- [ ] **Task 7** — Write schema.sql + PostgreSQL init script
+- [x] **Task 7** — Write schema.sql + PostgreSQL init script
   - Enable pgvector extension, create `articles` table with `embedding vector(1536)` column
   - Add ivfflat index for cosine similarity search
   - Mount as Postgres init script in docker-compose.yml

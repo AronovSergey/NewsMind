@@ -5,6 +5,12 @@ Read it fully before writing any code, creating any file, or running any command
 
 ---
 
+## Git commits
+
+**Never create git commits.** The user commits manually. Do not run `git commit`, `git add`, or any command that stages or commits changes — not even when a task says "Commit: ...". Just finish the code work and stop.
+
+---
+
 ## Project overview
 
 NewsMind is a distributed news intelligence platform. Users ask natural language questions

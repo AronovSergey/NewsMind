@@ -23,6 +23,7 @@ services:
       POSTGRES_PASSWORD: newsmind
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U newsmind -d newsmind"]
       interval: 10s
