@@ -78,7 +78,7 @@ When starting a Claude Code session, tell it which task you're on:
   - **Validate:** service starts → exchange visible in RabbitMQ management UI (localhost:15672)
   - **Commit:** `feat(rss-fetcher): rabbitmq config and exchange`
 
-- [ ] **Task 11** — RSS feed parser (Rome library)
+- [x] **Task 11** — RSS feed parser (Rome library)
   - `FeedParser.java`: fetch one feed URL, parse with Rome, return `List<RawArticle>`
   - **Validate:** unit test — parses ≥1 article from BBC RSS URL
   - **Commit:** `feat(rss-fetcher): rss feed parser with Rome`
