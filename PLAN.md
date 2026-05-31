@@ -11,22 +11,22 @@ When starting a Claude Code session, tell it which task you're on:
 ## Phase 0 — Repo, CI/CD & infra skeleton
 > Do this first, before writing any application code.
 
-- [ ] **Task 1** — Create GitHub repo + branch strategy
+- [x] **Task 1** — Create GitHub repo + branch strategy
   - `main` (protected) · `develop` · `feature/*` branches
   - Add `.gitignore` for Java, Node, `.env` files
   - **Commit:** `chore: init repo`
 
-- [ ] **Task 2** — Add CLAUDE.md to repo root
+- [x] **Task 2** — Add CLAUDE.md to repo root
   - This is the architecture rules file. Claude Code reads it automatically from here on.
   - **Commit:** `docs: add CLAUDE.md`
 
-- [ ] **Task 3** — Write docker-compose.yml — infrastructure only
+- [x] **Task 3** — Write docker-compose.yml — infrastructure only
   - Services: RabbitMQ (`rabbitmq:3-management`), PostgreSQL (`pgvector/pgvector:pg16`), Redis (`redis:7-alpine`)
   - No application services yet
   - **Validate:** `docker compose up` → all 3 containers healthy, RabbitMQ UI at localhost:15672
   - **Commit:** `chore: docker-compose infra skeleton`
 
-- [ ] **Task 4** — Set up GitHub Actions CI skeleton
+- [x] **Task 4** — Set up GitHub Actions CI skeleton
   - File: `.github/workflows/ci.yml`
   - Trigger: push to any branch
   - Step: checkout → placeholder `echo "build ok"` (expand per service as added)
