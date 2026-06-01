@@ -185,30 +185,30 @@ When starting a Claude Code session, tell it which task you're on:
 ## Phase 5 — API Gateway
 > Bridges the frontend (HTTP) with the backend (RabbitMQ).
 
-- [ ] **Task 27** — Scaffold API Gateway via Spring Initializr
+- [x] **Task 27** — Scaffold API Gateway via Spring Initializr
   - **YOU run this** at start.spring.io: Spring Web, Spring AMQP, Validation, Lombok, Actuator
   - Save output to `/services/api-gateway/`
   - **Commit:** `chore: scaffold api-gateway`
 
-- [ ] **Task 28** — POST /api/ask endpoint (stub)
+- [x] **Task 28** — POST /api/ask endpoint (stub)
   - `QueryController.java`: accept `{ "question": "..." }`, return hardcoded JSON response
   - Configure CORS for `localhost:3000`
   - **Validate:** `curl -X POST localhost:8080/api/ask -d '{"question":"test"}' -H 'Content-Type: application/json'` → 200 with stub JSON
   - **Commit:** `feat(gateway): POST /api/ask stub endpoint`
 
-- [ ] **Task 29** — Wire RabbitMQ request/reply into Gateway
+- [x] **Task 29** — Wire RabbitMQ request/reply into Gateway
   - `QueryBrokerService.java`: `convertSendAndReceive()` to `query.requested`, 30s timeout
   - Replace stub response with real RabbitMQ call
   - **Validate:** curl → Gateway → RabbitMQ → Query Service → real answer returned
   - **Commit:** `feat(gateway): rabbitmq request/reply wired`
 
-- [ ] **Task 30** — GET /api/health + GET /api/status endpoints
+- [x] **Task 30** — GET /api/health + GET /api/status endpoints
   - Health: verify RabbitMQ + Postgres connectivity
   - Status: total articles indexed + last fetch timestamp
   - **Validate:** both endpoints return valid JSON with correct data
   - **Commit:** `feat(gateway): health and status endpoints`
 
-- [ ] **Task 31** — Dockerize + deploy Gateway
+- [x] **Task 31** — Dockerize + deploy Gateway
   - Add to docker-compose.yml
   - Push to `main` → CD deploys
   - **Validate:** `curl http://YOUR_VM_IP:8080/api/health` from your local machine → 200
