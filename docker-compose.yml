@@ -108,5 +108,28 @@ services:
       redis:
         condition: service_healthy
 
+  api-gateway:
+    build:
+      context: ./services
+      dockerfile: api-gateway/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: guest
+      RABBITMQ_PASSWORD: guest
+      POSTGRES_URL: jdbc:postgresql://postgres:5432/newsmind
+      POSTGRES_USERNAME: newsmind
+      POSTGRES_PASSWORD: newsmind
+      QUERY_TIMEOUT_SECONDS: 30
+      CORS_ALLOWED_ORIGINS: http://localhost:3000,http://localhost:5173
+      LOG_LEVEL: INFO
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+
 volumes:
   postgres_data:
