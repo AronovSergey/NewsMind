@@ -145,35 +145,35 @@ When starting a Claude Code session, tell it which task you're on:
 ## Phase 4 — Query / RAG service
 > The intelligence layer. This is the core of the project.
 
-- [ ] **Task 21** — Scaffold Query Service via Spring Initializr
+- [x] **Task 21** — Scaffold Query Service via Spring Initializr
   - **YOU run this** at start.spring.io: Spring AMQP, Spring JDBC, Spring Data Redis, Lombok, Actuator
   - Save output to `/services/query-service/`
   - **Commit:** `chore: scaffold query-service`
 
-- [ ] **Task 22** — Vector similarity search (pgvector)
+- [x] **Task 22** — Vector similarity search (pgvector)
   - `VectorRetriever.java`: embed question → `SELECT ... ORDER BY embedding <=> ? LIMIT 5`
   - **Validate:** hardcoded test question → logs show 5 relevant article titles returned
   - **Commit:** `feat(query): vector similarity search`
 
-- [ ] **Task 23** — Prompt builder + OpenAI GPT-4o-mini call
+- [x] **Task 23** — Prompt builder + OpenAI GPT-4o-mini call
   - `PromptBuilder.java`: build prompt from articles using the template in CLAUDE.md
   - `LlmClient.java`: call `gpt-4o-mini`, return answer string
   - **Validate:** test in a `main()` method — coherent, sourced answer is returned
   - **Commit:** `feat(query): prompt builder and llm client`
 
-- [ ] **Task 24** — Redis cache layer
+- [x] **Task 24** — Redis cache layer
   - `QueryCache.java`: SHA-256 hash of question as Redis key, TTL 1800s
   - Check cache before calling OpenAI — write to cache after
   - **Validate:** ask same question twice — second call must NOT hit OpenAI (check logs)
   - **Commit:** `feat(query): redis cache layer`
 
-- [ ] **Task 25** — RabbitMQ consumer + reply publisher
+- [x] **Task 25** — RabbitMQ consumer + reply publisher
   - `QueryConsumer.java`: `@RabbitListener` on `query.requested`
   - Full RAG flow: cache check → vector search → prompt → LLM → publish to `query.answered` with matching `correlationId`
   - **Validate:** publish test message to queue → correct reply appears in `query.answered`
   - **Commit:** `feat(query): rabbitmq consumer and reply publisher`
 
-- [ ] **Task 26** — Dockerize + deploy Query Service
+- [x] **Task 26** — Dockerize + deploy Query Service
   - Add to docker-compose.yml
   - Push to `main` → CD deploys
   - **Validate:** publish test message manually from VM → answer returned via RabbitMQ
