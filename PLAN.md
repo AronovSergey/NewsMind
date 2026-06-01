@@ -93,7 +93,7 @@ When starting a Claude Code session, tell it which task you're on:
   - **Validate:** trigger manually → messages appear in RabbitMQ queue
   - **Commit:** `feat(rss-fetcher): scheduler and message publisher`
 
-- [ ] **Task 14** — Dockerize RSS Fetcher + add to Compose
+- [x] **Task 14** — Dockerize RSS Fetcher + add to Compose
   - Multi-stage Dockerfile: build (JDK) → run (JRE)
   - Add `rss-fetcher` to docker-compose.yml with `depends_on: [rabbitmq, postgres]` healthcheck condition
   - **Validate:** `docker compose up` → articles appear in DB after startup
