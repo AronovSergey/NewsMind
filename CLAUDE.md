@@ -255,10 +255,10 @@ public String buildUserPrompt(String question, List<ArticleContext> articles) {
   - `@RabbitListener` for consumers
   - `RabbitTemplate.convertSendAndReceive()` for request/reply in the Gateway
   - `Jackson2JsonMessageConverter` as the message converter on all services — messages are JSON
-- **Spring Data / JDBC:**
-  - Use `JdbcClient` (Spring 6.1+) or `NamedParameterJdbcTemplate` for PostgreSQL queries
-  - Use `pgvector-java` for vector type support
-  - No JPA/Hibernate — direct JDBC is simpler and more transparent for this workload
+- **Spring Data / JPA:**
+  - Use `spring-boot-starter-data-jpa` with Hibernate for all standard CRUD operations
+  - Use `@NativeQuery` for vector similarity search (`<=>` operator) — Hibernate doesn't support pgvector natively
+  - Use `pgvector-java` for the `vector(1536)` column type mapping in the `Article` entity
 - **OpenAI calls:**
   - Use `spring-ai-openai` starter if on Spring AI, otherwise the official `openai-java` SDK
   - Wrap all OpenAI calls in try/catch — handle rate limits with exponential backoff
@@ -483,7 +483,7 @@ cd services/query-service && ./mvnw test
 | OpenAI `gpt-4o-mini` for generation | Cheapest OpenAI model with solid reasoning; ~$2–5/mo at this scale |
 | PostgreSQL + pgvector | Fewer moving parts than a dedicated vector DB; handles our scale easily; single DB for both relational and vector data |
 | RabbitMQ over Kafka | Simpler ops for a single-VM deployment; Spring AMQP is first-class; sufficient throughput for hourly RSS ingestion |
-| No JPA/Hibernate | Direct JDBC is more transparent for vector operations and avoids ORM complexity |
+| JPA/Hibernate for CRUD, native query for vectors | Standard ORM for relational operations; `@NativeQuery` for pgvector similarity search which Hibernate doesn't support natively |
 | Redis TTL 30 minutes | Balance between answer freshness and OpenAI API cost |
 | Spring Boot Actuator | Free `/actuator/health` endpoint for Docker healthchecks with zero extra code |
 

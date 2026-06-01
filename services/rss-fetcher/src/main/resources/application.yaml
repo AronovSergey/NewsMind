@@ -10,6 +10,10 @@ spring:
     url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/newsmind}
     username: ${POSTGRES_USERNAME:newsmind}
     password: ${POSTGRES_PASSWORD:newsmind}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
 
 management:
   endpoints:

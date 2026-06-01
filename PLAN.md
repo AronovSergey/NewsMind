@@ -83,7 +83,7 @@ When starting a Claude Code session, tell it which task you're on:
   - **Validate:** unit test — parses ≥1 article from BBC RSS URL
   - **Commit:** `feat(rss-fetcher): rss feed parser with Rome`
 
-- [ ] **Task 12** — URL deduplication via PostgreSQL
+- [x] **Task 12** — URL deduplication via PostgreSQL
   - `ArticleDeduplicator.java`: `INSERT ... ON CONFLICT (url) DO NOTHING`
   - **Validate:** insert same article twice → no duplicate rows in DB
   - **Commit:** `feat(rss-fetcher): url deduplication`
