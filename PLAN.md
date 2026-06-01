@@ -88,7 +88,7 @@ When starting a Claude Code session, tell it which task you're on:
   - **Validate:** insert same article twice → no duplicate rows in DB
   - **Commit:** `feat(rss-fetcher): url deduplication`
 
-- [ ] **Task 13** — Scheduler + publisher wired together
+- [x] **Task 13** — Scheduler + publisher wired together
   - `FetchScheduler.java`: `@Scheduled` every 60 min, calls FeedParser for all 6 feeds, deduplicates, publishes each new article as JSON to `news.fetched`
   - **Validate:** trigger manually → messages appear in RabbitMQ queue
   - **Commit:** `feat(rss-fetcher): scheduler and message publisher`
