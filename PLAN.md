@@ -100,7 +100,7 @@ When starting a Claude Code session, tell it which task you're on:
   - Add `mvn build` step to GitHub Actions CI for this service
   - **Commit:** `feat(rss-fetcher): dockerfile and compose integration`
 
-- [ ] **Task 15** — Deploy RSS Fetcher to VM via CD
+- [x] **Task 15** — Deploy RSS Fetcher to VM via CD
   - Push to `main` → CD pipeline deploys automatically
   - SSH into VM, run `docker compose logs rss-fetcher`
   - **Validate:** articles are being fetched on the real server
