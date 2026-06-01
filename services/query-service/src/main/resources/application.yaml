@@ -1,3 +1,35 @@
 spring:
   application:
     name: query-service
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+  datasource:
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/newsmind}
+    username: ${POSTGRES_USERNAME:newsmind}
+    password: ${POSTGRES_PASSWORD:newsmind}
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+openai:
+  api-key: ${OPENAI_API_KEY}
+  embedding-model: ${OPENAI_EMBEDDING_MODEL:text-embedding-3-small}
+  chat-model: ${OPENAI_CHAT_MODEL:gpt-4o-mini}
+
+query:
+  max-context-articles: ${MAX_CONTEXT_ARTICLES:5}
+  cache-ttl-seconds: ${QUERY_CACHE_TTL_SECONDS:1800}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+logging:
+  level:
+    com.newsmind: ${LOG_LEVEL:INFO}

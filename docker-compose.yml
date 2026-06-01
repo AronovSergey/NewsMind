@@ -80,5 +80,33 @@ services:
       postgres:
         condition: service_healthy
 
+  query-service:
+    build:
+      context: ./services
+      dockerfile: query-service/Dockerfile
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: guest
+      RABBITMQ_PASSWORD: guest
+      POSTGRES_URL: jdbc:postgresql://postgres:5432/newsmind
+      POSTGRES_USERNAME: newsmind
+      POSTGRES_PASSWORD: newsmind
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      OPENAI_EMBEDDING_MODEL: text-embedding-3-small
+      OPENAI_CHAT_MODEL: gpt-4o-mini
+      MAX_CONTEXT_ARTICLES: 5
+      QUERY_CACHE_TTL_SECONDS: 1800
+      LOG_LEVEL: INFO
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
 volumes:
   postgres_data:
