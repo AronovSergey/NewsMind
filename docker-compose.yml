@@ -40,5 +40,24 @@ services:
       timeout: 5s
       retries: 5
 
+  rss-fetcher:
+    build:
+      context: ./services
+      dockerfile: rss-fetcher/Dockerfile
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: guest
+      RABBITMQ_PASSWORD: guest
+      POSTGRES_URL: jdbc:postgresql://postgres:5432/newsmind
+      POSTGRES_USERNAME: newsmind
+      POSTGRES_PASSWORD: newsmind
+      LOG_LEVEL: INFO
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+
 volumes:
   postgres_data:
