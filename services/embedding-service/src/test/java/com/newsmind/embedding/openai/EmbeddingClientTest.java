@@ -1,9 +1,9 @@
 package com.newsmind.embedding.openai;
 
 import com.openai.client.OpenAIClient;
-import com.openai.models.embeddings.CreateEmbeddingResponse;
-import com.openai.models.embeddings.Embedding;
-import com.openai.models.embeddings.EmbeddingCreateParams;
+import com.openai.models.CreateEmbeddingResponse;
+import com.openai.models.Embedding;
+import com.openai.models.EmbeddingCreateParams;
 import com.openai.services.blocking.EmbeddingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
