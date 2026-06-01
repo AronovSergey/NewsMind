@@ -7,7 +7,7 @@ import java.util.List;
 @Component
 public class PromptBuilder {
 
-    static final String SYSTEM_PROMPT = """
+    public static final String SYSTEM_PROMPT = """
             You are NewsMind, a helpful news assistant.
             You answer questions about current events based only on the provided news articles.
             Always be factual, concise, and neutral in tone.
