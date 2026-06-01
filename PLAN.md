@@ -111,28 +111,28 @@ When starting a Claude Code session, tell it which task you're on:
 ## Phase 3 — Embedding service
 > Articles become searchable vectors.
 
-- [ ] **Task 16** — Scaffold Embedding Service via Spring Initializr
+- [x] **Task 16** — Scaffold Embedding Service via Spring Initializr
   - **YOU run this** at start.spring.io: Spring AMQP, Spring JDBC, Lombok, Actuator
   - Save output to `/services/embedding-service/`
   - **Commit:** `chore: scaffold embedding-service`
 
-- [ ] **Task 17** — OpenAI embedding client
+- [x] **Task 17** — OpenAI embedding client
   - `EmbeddingClient.java`: call `text-embedding-3-small` API, return `float[1536]`
   - **Validate:** unit test — vector length == 1536, values are non-zero
   - **Commit:** `feat(embedding): openai embedding client`
 
-- [ ] **Task 18** — pgvector write — store article + embedding
+- [x] **Task 18** — pgvector write — store article + embedding
   - `ArticleRepository.java`: `UPDATE articles SET embedding = ? WHERE id = ?` using pgvector-java `PGvector` type
   - **Validate:** read back the embedding — confirm column is NOT NULL in DB
   - **Commit:** `feat(embedding): pgvector write`
 
-- [ ] **Task 19** — RabbitMQ consumer + full flow
+- [x] **Task 19** — RabbitMQ consumer + full flow
   - `ArticleConsumer.java`: `@RabbitListener` on `news.fetched` queue
   - Flow: consume message → embed → store → publish `news.embedded`
   - **Validate:** `SELECT COUNT(*) FROM articles WHERE embedding IS NOT NULL` > 0
   - **Commit:** `feat(embedding): rabbitmq consumer wired end-to-end`
 
-- [ ] **Task 20** — Dockerize + deploy Embedding Service
+- [x] **Task 20** — Dockerize + deploy Embedding Service
   - Add to docker-compose.yml
   - Add `OPENAI_API_KEY` to GitHub secrets and VM `.env` file
   - Push to `main` → CD deploys
