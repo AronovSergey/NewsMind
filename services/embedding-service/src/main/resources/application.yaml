@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: embedding-service
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+  datasource:
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/newsmind}
+    username: ${POSTGRES_USERNAME:newsmind}
+    password: ${POSTGRES_PASSWORD:newsmind}
+
+openai:
+  api-key: ${OPENAI_API_KEY}
+  embedding-model: ${OPENAI_EMBEDDING_MODEL:text-embedding-3-small}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+logging:
+  level:
+    com.newsmind: ${LOG_LEVEL:INFO}
