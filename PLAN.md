@@ -220,31 +220,31 @@ When starting a Claude Code session, tell it which task you're on:
 ## Phase 6 — React frontend
 > The user-facing UI. Non-technical users must find it intuitive.
 
-- [ ] **Task 32** — Scaffold frontend via Vite CLI
+- [x] **Task 32** — Scaffold frontend via Vite CLI
   - **YOU run:** `npm create vite@latest frontend -- --template react-ts`
   - Then: `cd frontend && npm install && npm run dev`
   - Install Tailwind: follow official Tailwind + Vite setup guide
   - **Commit:** `chore: scaffold frontend`
 
-- [ ] **Task 33** — useAsk hook — API call logic
+- [x] **Task 33** — useAsk hook — API call logic
   - `useAsk.ts`: `POST /api/ask`, manage `loading` / `error` / `result` state
   - **Validate:** test hook with hardcoded question → real answer logged to console
   - **Commit:** `feat(frontend): useAsk hook`
 
-- [ ] **Task 34** — SearchBar + LoadingSkeleton components
+- [x] **Task 34** — SearchBar + LoadingSkeleton components
   - `SearchBar.tsx`: input + submit button, placeholder `"Ask anything about today's news..."`
   - `LoadingSkeleton.tsx`: animated pulse placeholder (no spinner)
   - Wire `SearchBar` submit to `useAsk`
   - **Commit:** `feat(frontend): SearchBar and LoadingSkeleton`
 
-- [ ] **Task 35** — AnswerCard + SourceCard components
+- [x] **Task 35** — AnswerCard + SourceCard components
   - `AnswerCard.tsx`: renders the synthesized answer paragraph
   - `SourceCard.tsx`: headline, publication name, "X min ago", external link
   - Wire both to real API response shape
   - **Validate:** full browser test — ask a question, answer + sources appear correctly
   - **Commit:** `feat(frontend): AnswerCard and SourceCard`
 
-- [ ] **Task 36** — Error states + mobile responsive pass
+- [x] **Task 36** — Error states + mobile responsive pass
   - Friendly error messages — no HTTP status codes or stack traces visible
   - Test at 375px viewport width — everything readable and usable
   - Add footer: `"Powered by live news · Updated hourly"`
