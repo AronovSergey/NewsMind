@@ -1,0 +1,26 @@
+services:
+  rabbitmq:
+    ports: !reset []
+
+  postgres:
+    ports: !reset []
+
+  redis:
+    ports: !reset []
+
+  rss-fetcher:
+    environment:
+      LOG_LEVEL: WARN
+
+  embedding-service:
+    environment:
+      LOG_LEVEL: WARN
+
+  query-service:
+    environment:
+      LOG_LEVEL: WARN
+
+  api-gateway:
+    environment:
+      LOG_LEVEL: WARN
+      CORS_ALLOWED_ORIGINS: https://newsmind.media,https://www.newsmind.media
