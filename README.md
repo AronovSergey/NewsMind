@@ -65,11 +65,13 @@ RSS Fetcher  Embedding Svc  Query Svc
 
 ## Environment variables
 
-See `.env.example` for the full list. Required to get started:
+Copy `.env.example` to `.env` and fill in the values:
 
-```
-OPENAI_API_KEY=sk-...
-```
+| Variable | Required | Description |
+|---|---|---|
+| `OPENAI_API_KEY` | Yes | Your OpenAI API key — used for embeddings and GPT-4o-mini |
+| `LOG_LEVEL` | No | Log verbosity — `INFO` (default) or `WARN` for production |
+| `JAVA_OPTS` | No | JVM memory flags — default `-Xms128m -Xmx256m` per service |
 
 ## Project status
 
