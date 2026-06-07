@@ -250,7 +250,7 @@ When starting a Claude Code session, tell it which task you're on:
   - Add footer: `"Powered by live news · Updated hourly"`
   - **Commit:** `feat(frontend): error states and mobile layout`
 
-- [ ] **Task 37** — Dockerize frontend (nginx) + deploy
+- [x] **Task 37** — Dockerize frontend (nginx) + deploy
   - `Dockerfile`: Vite build → nginx serve static files
   - `nginx.conf`: serve `dist/` + proxy `/api/*` to `api-gateway:8080`
   - Add `frontend` to docker-compose.yml
@@ -264,7 +264,7 @@ When starting a Claude Code session, tell it which task you're on:
 ## Phase 7 — Production hardening
 > CV-ready, publicly shareable, resilient.
 
-- [ ] **Task 38** — HTTPS via Certbot + custom domain
+- [x] **Task 38** — HTTPS via Certbot + custom domain
   - Point domain DNS A record to VM IP
   - SSH into VM: `sudo certbot --nginx -d yourdomain.com`
   - Update `CORS_ALLOWED_ORIGINS` in `.env` to `https://yourdomain.com`
