@@ -4,40 +4,68 @@ A distributed news intelligence platform. Ask natural language questions about c
 
 > "What happened in AI this week?" → synthesized answer with source links, powered by live RSS feeds and a RAG pipeline.
 
+**Live demo:** [newsmind.media](https://newsmind.media)
+
+<!-- Add demo GIF here: ![Demo](assets/demo.gif) -->
+
+---
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────┐
+│         React Frontend (Vite + TS)          │
+└──────────────────────┬──────────────────────┘
+                       │ REST (HTTP)
+┌──────────────────────▼──────────────────────┐
+│         Spring Boot API Gateway             │
+└──────────────────────┬──────────────────────┘
+                       │
+              ┌────────▼────────┐
+              │    RabbitMQ     │
+              └──┬──────────┬───┘
+                 │          │
+   ┌─────────────▼─┐   ┌────▼──────────┐   ┌──▼─────────────┐
+   │  RSS Fetcher  │   │ Embedding Svc │   │ Query/RAG Svc  │
+   └───────┬───────┘   └──────┬────────┘   └──────┬─────────┘
+           │                  │                    │
+   ┌───────▼──────────────────▼──┐      ┌──────────▼──────┐
+   │   PostgreSQL + pgvector     │      │      Redis       │
+   │   Articles + embeddings     │      │   Query cache    │
+   └─────────────────────────────┘      └─────────────────┘
+```
+
+**Key architectural decisions:**
+- All backend services communicate exclusively via RabbitMQ — no direct HTTP calls between services
+- Vector similarity search via pgvector instead of a dedicated vector database — fewer moving parts
+- All four backend services are Java 21 + Spring Boot 3 — consistent JVM stack throughout
+
 ---
 
 ## How it works
 
-1. **RSS Fetcher** pulls articles from 6 news sources every hour
-2. **Embedding Service** converts articles into vector embeddings via OpenAI
-3. **Query Service** runs semantic search + GPT-4o-mini to answer your question
-4. **API Gateway** exposes a REST API to the React frontend
+1. **RSS Fetcher** — pulls articles from 6 news sources every hour, deduplicates by URL, publishes to RabbitMQ
+2. **Embedding Service** — consumes articles, generates 1536-dim vectors via OpenAI `text-embedding-3-small`, stores in pgvector
+3. **Query Service** — receives user questions, runs cosine similarity search, builds a RAG prompt, calls `gpt-4o-mini`, caches answers in Redis
+4. **API Gateway** — bridges the React frontend (REST) with the backend (RabbitMQ request/reply)
 
-All backend communication is async via RabbitMQ. The only REST interface is the frontend ↔ Gateway.
-
-```
-React Frontend
-      │ REST
-API Gateway
-      │
-   RabbitMQ
-   ┌──┴──────────┬─────────────┐
-RSS Fetcher  Embedding Svc  Query Svc
-      └──────────┴─────────────┘
-               PostgreSQL + pgvector   Redis
-```
+---
 
 ## Tech stack
 
 | Layer | Technology |
 |---|---|
 | Frontend | React 18 + TypeScript + Vite + TailwindCSS |
-| Backend | Java 21 + Spring Boot 3 (4 services) |
-| Messaging | RabbitMQ |
-| Database | PostgreSQL + pgvector |
-| Cache | Redis |
+| Backend | Java 21 + Spring Boot 3 (4 microservices) |
+| Messaging | RabbitMQ (fanout + direct exchanges, dead-letter queues) |
+| Database | PostgreSQL 16 + pgvector |
+| Cache | Redis 7 |
 | AI | OpenAI `text-embedding-3-small` + `gpt-4o-mini` |
-| Infra | Docker Compose, Hetzner CX21 |
+| Infra | Docker Compose, Hetzner CX21 (2 vCPU, 4GB RAM) |
+| HTTPS | Let's Encrypt via Certbot, auto-renewed |
+| CI/CD | GitHub Actions — build + SSH deploy to VM on push to main |
+
+---
 
 ## Running locally
 
@@ -59,9 +87,14 @@ RSS Fetcher  Embedding Svc  Query Svc
 3. Open `http://localhost:3000` in your browser.
 
 **Useful URLs while running locally:**
-- Frontend: `http://localhost:3000`
-- API Gateway: `http://localhost:8080`
-- RabbitMQ management UI: `http://localhost:15672` (guest / guest)
+| URL | What |
+|---|---|
+| `http://localhost:3000` | Frontend |
+| `http://localhost:8080` | API Gateway |
+| `http://localhost:15672` | RabbitMQ management UI (guest / guest) |
+| `http://localhost:5432` | PostgreSQL |
+
+---
 
 ## Environment variables
 
@@ -73,6 +106,31 @@ Copy `.env.example` to `.env` and fill in the values:
 | `LOG_LEVEL` | No | Log verbosity — `INFO` (default) or `WARN` for production |
 | `JAVA_OPTS` | No | JVM memory flags — default `-Xms128m -Xmx256m` per service |
 
-## Project status
+---
 
-Under active development. See [PLAN.md](PLAN.md) for the full build plan.
+## Project structure
+
+```
+newsmind/
+├── services/
+│   ├── rss-fetcher/        — Spring Boot, Rome RSS, @Scheduled
+│   ├── embedding-service/  — Spring Boot, OpenAI embeddings, pgvector
+│   ├── query-service/      — Spring Boot, RAG pipeline, Redis cache
+│   └── api-gateway/        — Spring Boot, REST API, RabbitMQ request/reply
+├── frontend/               — React + TypeScript + TailwindCSS
+├── db/schema.sql           — PostgreSQL schema with pgvector
+├── docker-compose.yml      — local + base production config
+├── docker-compose.prod.yml — production overrides
+└── .env.example            — environment variable template
+```
+
+---
+
+## RSS news sources
+
+- BBC News
+- TechCrunch
+- Reuters
+- The Verge
+- Hacker News
+- Al Jazeera

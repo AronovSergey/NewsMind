@@ -271,7 +271,7 @@ When starting a Claude Code session, tell it which task you're on:
   - **Validate:** `https://yourdomain.com` loads with valid certificate
   - **Commit:** `chore: nginx config for HTTPS`
 
-- [ ] **Task 39** — docker-compose.prod.yml overrides
+- [x] **Task 39** — docker-compose.prod.yml overrides
   - Remove exposed debug ports (RabbitMQ management 15672, Postgres 5432)
   - Add `restart: always` to all services
   - Add `JAVA_OPTS=-Xms128m -Xmx256m` per service (4 services × ~256MB = stays within 4GB)
@@ -279,7 +279,7 @@ When starting a Claude Code session, tell it which task you're on:
   - **Validate:** `docker compose down && docker compose up -d` → all services recover automatically
   - **Commit:** `chore: production compose overrides`
 
-- [ ] **Task 40** — Dead-letter queues for all RabbitMQ queues
+- [x] **Task 40** — Dead-letter queues for all RabbitMQ queues
   - Declare `*.dlq` queue alongside each main queue in all service configs
   - **Validate:** publish a malformed message → it lands in DLQ, service keeps running without crashing
   - **Commit:** `feat: dead-letter queues for all consumers`
