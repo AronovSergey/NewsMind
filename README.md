@@ -6,8 +6,6 @@ A distributed news intelligence platform. Ask natural language questions about c
 
 **Live demo:** [newsmind.media](https://newsmind.media)
 
-<!-- Add demo GIF here: ![Demo](assets/demo.gif) -->
-
 ---
 
 ## Architecture

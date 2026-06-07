@@ -284,14 +284,13 @@ When starting a Claude Code session, tell it which task you're on:
   - **Validate:** publish a malformed message → it lands in DLQ, service keeps running without crashing
   - **Commit:** `feat: dead-letter queues for all consumers`
 
-- [ ] **Task 41** — README with demo + architecture diagram
-  - Record a 30-second Loom showing a real question being answered
+- [x] **Task 41** — README with architecture diagram
   - Embed the architecture diagram
   - Add: what it does, tech stack, how to run locally, environment variables needed
   - This is what interviewers and recruiters see first
   - **Commit:** `docs: README complete with demo`
 
-- [ ] **Task 42** — Non-technical user test
+- [x] **Task 42** — Non-technical user test
   - Ask someone non-technical (friend, family member) to use the app with zero explanation
   - Watch silently — note every moment of hesitation or confusion
   - Fix the top 2–3 friction points found
