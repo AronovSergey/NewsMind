@@ -48,11 +48,13 @@ public class LlmClient {
                         .messages(List.of(
                                 ChatCompletionMessageParam.ofChatCompletionSystemMessageParam(
                                         ChatCompletionSystemMessageParam.builder()
+                                                .role(ChatCompletionSystemMessageParam.Role.SYSTEM)
                                                 .content(ChatCompletionSystemMessageParam.Content.ofTextContent(systemPrompt))
                                                 .build()
                                 ),
                                 ChatCompletionMessageParam.ofChatCompletionUserMessageParam(
                                         ChatCompletionUserMessageParam.builder()
+                                                .role(ChatCompletionUserMessageParam.Role.USER)
                                                 .content(ChatCompletionUserMessageParam.Content.ofTextContent(userPrompt))
                                                 .build()
                                 )
