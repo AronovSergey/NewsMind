@@ -132,7 +132,7 @@ services:
       POSTGRES_USERNAME: newsmind
       POSTGRES_PASSWORD: newsmind
       QUERY_TIMEOUT_SECONDS: 30
-      CORS_ALLOWED_ORIGINS: http://localhost:3000,http://localhost:5173,http://localhost:80,http://localhost
+      CORS_ALLOWED_ORIGINS: http://localhost:3000,http://localhost:5173,http://localhost,https://newsmind.media,https://www.newsmind.media
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
       JAVA_OPTS: ${JAVA_OPTS:--Xms128m -Xmx256m}
     restart: always
