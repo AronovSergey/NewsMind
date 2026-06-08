@@ -298,6 +298,22 @@ When starting a Claude Code session, tell it which task you're on:
 
 ---
 
+## Phase 8 — Extras & improvements
+> Optional enhancements beyond the original plan.
+
+- [ ] **Task 43** — Split articles and embeddings into separate tables
+  - Create a `chunks` table: `id`, `article_id` (FK), `chunk_text`, `chunk_index`, `embedding vector(1536)`
+  - Move the `embedding` column out of `articles` — articles stay as pure metadata
+  - Update Embedding Service to write to `chunks` instead of updating `articles`
+  - Update Query Service `VectorRetriever` to join `chunks` with `articles` for similarity search
+  - Use **Flyway** as the migration tool — add `spring-boot-starter-flyway` to each service that touches the DB
+  - Write versioned migration scripts (`V1__init.sql`, `V2__create_chunks_table.sql`, `V3__migrate_embeddings_to_chunks.sql`)
+  - Flyway runs migrations automatically on service startup — no manual SQL, no data loss
+  - **Benefit:** supports multiple chunks per article in the future; cleaner separation of concerns; safe schema evolution going forward
+  - **Commit:** `refactor: split articles and chunks into separate tables`
+
+---
+
 ## Quick reference — commit message prefixes
 
 | Prefix | When to use |

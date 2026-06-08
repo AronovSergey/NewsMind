@@ -16,8 +16,13 @@ public class ArticleRepository {
     public void updateEmbedding(String url, float[] embedding) {
         int updated = jdbcTemplate.update(conn -> {
             PGvector.addVectorType(conn);
-            var ps = conn.prepareStatement(
-                    "UPDATE articles SET embedding = ? WHERE url = ?");
+            var ps = conn.prepareStatement("""
+                    INSERT INTO chunks (article_id, chunk_text, chunk_index, embedding)
+                    SELECT id, content, 0, ?
+                    FROM articles WHERE url = ?
+                    ON CONFLICT (article_id, chunk_index)
+                    DO UPDATE SET embedding = EXCLUDED.embedding, chunk_text = EXCLUDED.chunk_text
+                    """);
             ps.setObject(1, new PGvector(embedding));
             ps.setString(2, url);
             return ps;

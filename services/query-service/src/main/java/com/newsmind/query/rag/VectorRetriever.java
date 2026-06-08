@@ -23,10 +23,11 @@ public class VectorRetriever {
         return jdbcTemplate.query(conn -> {
             PGvector.addVectorType(conn);
             var ps = conn.prepareStatement("""
-                    SELECT title, content, url, source, published_at
-                    FROM articles
-                    WHERE embedding IS NOT NULL
-                    ORDER BY embedding <=> ?
+                    SELECT a.title, c.chunk_text AS content, a.url, a.source, a.published_at
+                    FROM chunks c
+                    JOIN articles a ON c.article_id = a.id
+                    WHERE c.embedding IS NOT NULL
+                    ORDER BY c.embedding <=> ?
                     LIMIT ?
                     """);
             ps.setObject(1, new PGvector(questionEmbedding));
