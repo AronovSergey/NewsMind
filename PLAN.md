@@ -301,16 +301,29 @@ When starting a Claude Code session, tell it which task you're on:
 ## Phase 8 — Extras & improvements
 > Optional enhancements beyond the original plan.
 
-- [ ] **Task 43** — Split articles and embeddings into separate tables
+- [x] **Task 43** — Split articles and embeddings into separate tables
   - Create a `chunks` table: `id`, `article_id` (FK), `chunk_text`, `chunk_index`, `embedding vector(1536)`
   - Move the `embedding` column out of `articles` — articles stay as pure metadata
   - Update Embedding Service to write to `chunks` instead of updating `articles`
   - Update Query Service `VectorRetriever` to join `chunks` with `articles` for similarity search
-  - Use **Flyway** as the migration tool — add `spring-boot-starter-flyway` to each service that touches the DB
-  - Write versioned migration scripts (`V1__init.sql`, `V2__create_chunks_table.sql`, `V3__migrate_embeddings_to_chunks.sql`)
-  - Flyway runs migrations automatically on service startup — no manual SQL, no data loss
-  - **Benefit:** supports multiple chunks per article in the future; cleaner separation of concerns; safe schema evolution going forward
-  - **Commit:** `refactor: split articles and chunks into separate tables`
+  - Use **Flyway** as the migration tool — `flyway-core` + `flyway-database-postgresql` in all 3 DB services
+  - Migration scripts: V1 (baseline), V2 (create chunks), V3 (migrate data), V4 (drop embedding column)
+  - `baseline-on-migrate: true` so existing DBs are not destroyed
+  - **Commit:** `refactor: split articles and chunks into separate tables via Flyway migrations`
+
+- [x] **Task 44** — Restructure Docker Compose for local dev vs production
+  - `docker-compose.yml` — infra only (RabbitMQ, PostgreSQL, Redis)
+  - `docker-compose.prod.yml` — all application services + production settings (LOG_LEVEL=WARN, no debug ports)
+  - CD pipeline runs both: `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build`
+  - **Commit:** `chore: move app services to prod compose, keep base as infra only`
+
+- [x] **Task 45** — Makefile for local development
+  - `make up` — starts all 4 Spring Boot services + Vite frontend in parallel
+  - `make down` — kills all service processes and Vite
+  - `make infra` — starts Docker infra only
+  - Loads `.env` automatically via `-include .env` + `export`
+  - Each service runs on its own port: rss-fetcher 8081, embedding-service 8082, query-service 8083, api-gateway 8080
+  - **Commit:** `feat: local dev setup with Makefile, service ports`
 
 ---
 
