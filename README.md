@@ -67,7 +67,7 @@ A distributed news intelligence platform. Ask natural language questions about c
 
 ## Running locally
 
-**Prerequisites:** Docker, Docker Compose, an OpenAI API key.
+**Prerequisites:** Docker, Docker Compose, Java 21, Node.js, an OpenAI API key.
 
 1. Clone the repo and copy the example env file:
    ```bash
@@ -77,17 +77,27 @@ A distributed news intelligence platform. Ask natural language questions about c
    # fill in OPENAI_API_KEY in .env
    ```
 
-2. Start everything:
+2. Start the infrastructure (RabbitMQ, PostgreSQL, Redis):
    ```bash
-   docker compose up --build
+   docker compose up -d
    ```
 
-3. Open `http://localhost:3000` in your browser.
+3. Start all services and the frontend:
+   ```bash
+   make up
+   ```
+
+4. Open `http://localhost:5173` in your browser.
+
+To stop everything:
+```bash
+make down
+```
 
 **Useful URLs while running locally:**
 | URL | What |
 |---|---|
-| `http://localhost:3000` | Frontend |
+| `http://localhost:5173` | Frontend (Vite dev server) |
 | `http://localhost:8080` | API Gateway |
 | `http://localhost:15672` | RabbitMQ management UI (guest / guest) |
 | `http://localhost:5432` | PostgreSQL |
@@ -116,9 +126,9 @@ newsmind/
 │   ├── query-service/      — Spring Boot, RAG pipeline, Redis cache
 │   └── api-gateway/        — Spring Boot, REST API, RabbitMQ request/reply
 ├── frontend/               — React + TypeScript + TailwindCSS
-├── db/schema.sql           — PostgreSQL schema with pgvector
-├── docker-compose.yml      — local + base production config
-├── docker-compose.prod.yml — production overrides
+├── docker-compose.yml      — infrastructure only (RabbitMQ, PostgreSQL, Redis)
+├── docker-compose.prod.yml — production app services + overrides
+├── Makefile                — local dev commands (make up / make down)
 └── .env.example            — environment variable template
 ```
 
@@ -128,7 +138,7 @@ newsmind/
 
 - BBC News
 - TechCrunch
-- Reuters
 - The Verge
 - Hacker News
-- Al Jazeera
+- NPR News
+- NY Times
