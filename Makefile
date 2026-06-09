@@ -1,7 +1,7 @@
 -include .env
 export
 
-.PHONY: infra up down
+.PHONY: infra up down test test-fetcher test-embedding test-query test-gateway test-frontend
 
 infra:
 	docker compose up -d
@@ -16,3 +16,25 @@ up:
 down:
 	@pkill -f 'spring-boot:run' 2>/dev/null || true
 	@pkill -f 'vite' 2>/dev/null || true
+
+# Tests
+test:
+	(cd services/rss-fetcher && ./mvnw test)
+	(cd services/embedding-service && ./mvnw test)
+	(cd services/query-service && ./mvnw test)
+	(cd services/api-gateway && ./mvnw test)
+
+test-fetcher:
+	cd services/rss-fetcher && ./mvnw test
+
+test-embedding:
+	cd services/embedding-service && ./mvnw test
+
+test-query:
+	cd services/query-service && ./mvnw test
+
+test-gateway:
+	cd services/api-gateway && ./mvnw test
+
+test-frontend:
+	cd frontend && npm test

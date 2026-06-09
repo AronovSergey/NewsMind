@@ -302,6 +302,18 @@ Each service follows the same layout: `Dockerfile`, `pom.xml`, `src/main/java/co
 ---
 
 
+## Validation after code changes
+
+After completing all code changes in a response, run tests once — not after each file edit.
+
+- Changed one backend service → run the matching target: `make test-fetcher`, `make test-embedding`, `make test-query`, or `make test-gateway`
+- Changed multiple backend services → run `make test`
+- Changed frontend code → run `make test-frontend`
+
+Some backend tests require infrastructure (DB, RabbitMQ). Run `make infra` first if not already up.
+
+---
+
 ## Build and run commands
 
 ### Local development (Makefile)
