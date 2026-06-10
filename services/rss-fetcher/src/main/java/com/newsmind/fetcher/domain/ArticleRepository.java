@@ -11,6 +11,8 @@ import java.util.UUID;
 
 public interface ArticleRepository extends JpaRepository<Article, UUID> {
 
+    boolean existsByUrl(String url);
+
     @Transactional
     @Modifying
     @Query(value = """
