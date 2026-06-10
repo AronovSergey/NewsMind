@@ -333,13 +333,26 @@ Each service follows the same layout: `Dockerfile`, `pom.xml`, `src/main/java/co
 
 ## Validation after code changes
 
+**Run tests locally before every commit.** CI runs the exact same tests — a failure there means a broken deployment and another round-trip.
+
 After completing all code changes in a response, run tests once — not after each file edit.
 
 - Changed one backend service → run the matching target: `make test-fetcher`, `make test-embedding`, `make test-query`, or `make test-gateway`
 - Changed multiple backend services → run `make test`
 - Changed frontend code → run `make test-frontend`
 
-Some backend tests require infrastructure (DB, RabbitMQ). Run `make infra` first if not already up.
+`make test-embedding` and `make test-query` automatically install the parent POM and `common` module into the local Maven repo before running (via the `install-common` prerequisite in the Makefile). No manual step needed.
+
+Tests that use Testcontainers (e.g. `ArticleDeduplicatorTest`) spin up their own PostgreSQL container — they do **not** need `make infra`. Other `@SpringBootTest` tests that connect to RabbitMQ or the shared Postgres do require `make infra` first.
+
+### Common test failure patterns
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| `cannot find symbol: class EmbeddingClient` in a test | Test still imports from the deleted per-service class | Update import to `com.newsmind.common.openai.EmbeddingClient` |
+| `Could not resolve placeholder 'OPENAI_API_KEY'` in `@SpringBootTest` | `OpenAIClient` is a Spring bean (from `OpenAIConfig` in `common`) but not mocked — Spring tries to instantiate it and fails on the missing env var | Add `@MockitoBean OpenAIClient openAIClient` to the test class |
+| `null value in column "id"` in a Testcontainers test | Test overrides `spring.jpa.hibernate.ddl-auto=create-drop`, so Hibernate creates the schema without `DEFAULT gen_random_uuid()`, breaking native `INSERT` statements that omit `id` | Remove the `ddl-auto` override — let Flyway run the migrations (V1 sets the proper column default) |
+| `Could not find artifact com.newsmind:common:jar:0.0.1-SNAPSHOT` locally | `common` JAR not yet installed in local Maven repo | Run `make install-common` once, or let `make test-embedding` / `make test-query` do it automatically |
 
 ---
 

@@ -1,7 +1,7 @@
 -include .env
 export
 
-.PHONY: infra up down test test-fetcher test-embedding test-query test-gateway test-frontend
+.PHONY: infra up down install-common test test-fetcher test-embedding test-query test-gateway test-frontend
 
 infra:
 	docker compose up -d
@@ -17,8 +17,11 @@ down:
 	@pkill -f 'spring-boot:run' 2>/dev/null || true
 	@pkill -f 'vite' 2>/dev/null || true
 
+install-common:
+	cd services && ./embedding-service/mvnw -f pom.xml install -N -DskipTests -q && ./embedding-service/mvnw -f common/pom.xml install -DskipTests -q
+
 # Tests
-test:
+test: install-common
 	(cd services/rss-fetcher && ./mvnw test)
 	(cd services/embedding-service && ./mvnw test)
 	(cd services/query-service && ./mvnw test)
@@ -27,10 +30,10 @@ test:
 test-fetcher:
 	cd services/rss-fetcher && ./mvnw test
 
-test-embedding:
+test-embedding: install-common
 	cd services/embedding-service && ./mvnw test
 
-test-query:
+test-query: install-common
 	cd services/query-service && ./mvnw test
 
 test-gateway:
