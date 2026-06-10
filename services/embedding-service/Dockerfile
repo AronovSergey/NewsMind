@@ -6,6 +6,9 @@ COPY embedding-service/mvnw ./mvnw
 COPY embedding-service/.mvn ./.mvn
 RUN chmod +x mvnw && ./mvnw -f pom.xml install -N -q
 
+COPY common ./common
+RUN ./mvnw -pl common install -DskipTests -q
+
 COPY embedding-service ./embedding-service
 WORKDIR /app/embedding-service
 RUN chmod +x mvnw && ./mvnw package -DskipTests -q
