@@ -27,6 +27,21 @@ management:
       exposure:
         include: health
 
+feeds:
+  sources:
+    - url: "https://feeds.bbci.co.uk/news/rss.xml"
+      name: "BBC News"
+    - url: "https://techcrunch.com/feed/"
+      name: "TechCrunch"
+    - url: "https://feeds.npr.org/1001/rss.xml"
+      name: "NPR News"
+    - url: "https://www.theverge.com/rss/index.xml"
+      name: "The Verge"
+    - url: "https://hnrss.org/frontpage"
+      name: "Hacker News"
+    - url: "https://rss.nytimes.com/services/xml/rss/nyt/World.xml"
+      name: "NY Times"
+
 logging:
   level:
     com.newsmind: ${LOG_LEVEL:INFO}

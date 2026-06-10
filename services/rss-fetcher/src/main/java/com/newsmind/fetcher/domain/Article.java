@@ -33,7 +33,12 @@ public class Article {
 
     private Instant publishedAt;
 
-    private Instant fetchedAt = Instant.now();
+    private Instant fetchedAt;
+
+    @PrePersist
+    void prePersist() {
+        if (fetchedAt == null) fetchedAt = Instant.now();
+    }
 
     public Article(String title, String content, String url, String source, Instant publishedAt) {
         this.title = title;

@@ -18,7 +18,7 @@ public class ArticleRepository {
             PGvector.addVectorType(conn);
             var ps = conn.prepareStatement("""
                     INSERT INTO chunks (article_id, chunk_text, chunk_index, embedding)
-                    SELECT id, content, 0, ?
+                    SELECT id, title || E'\n' || content, 0, ?
                     FROM articles WHERE url = ?
                     ON CONFLICT (article_id, chunk_index)
                     DO UPDATE SET embedding = EXCLUDED.embedding, chunk_text = EXCLUDED.chunk_text

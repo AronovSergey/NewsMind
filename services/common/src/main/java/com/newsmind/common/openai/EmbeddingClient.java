@@ -1,10 +1,9 @@
-package com.newsmind.query.rag;
+package com.newsmind.common.openai;
 
 import com.openai.client.OpenAIClient;
-import com.openai.client.okhttp.OpenAIOkHttpClient;
 import com.openai.models.EmbeddingCreateParams;
 import com.openai.models.EmbeddingModel;
-import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -13,25 +12,16 @@ import java.util.List;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class EmbeddingClient {
 
     private static final int MAX_RETRIES = 3;
     private static final long INITIAL_DELAY_MS = 1000L;
 
-    @Value("${openai.api-key}")
-    private String apiKey;
+    private final OpenAIClient client;
 
     @Value("${openai.embedding-model}")
     private String embeddingModel;
-
-    private OpenAIClient client;
-
-    @PostConstruct
-    void init() {
-        client = OpenAIOkHttpClient.builder()
-                .apiKey(apiKey)
-                .build();
-    }
 
     public float[] embed(String text) {
         Exception lastException = null;

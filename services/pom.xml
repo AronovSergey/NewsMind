@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>common</module>
         <module>rss-fetcher</module>
         <module>embedding-service</module>
         <module>query-service</module>

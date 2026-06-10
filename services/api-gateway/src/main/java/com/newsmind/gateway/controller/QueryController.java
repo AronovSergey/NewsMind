@@ -38,7 +38,7 @@ public class QueryController {
         Long totalArticles = jdbcTemplate.queryForObject(
                 "SELECT COUNT(*) FROM articles", Long.class);
         Long embeddedArticles = jdbcTemplate.queryForObject(
-                "SELECT COUNT(*) FROM articles WHERE embedding IS NOT NULL", Long.class);
+                "SELECT COUNT(DISTINCT article_id) FROM chunks WHERE embedding IS NOT NULL", Long.class);
         Instant lastFetch = jdbcTemplate.queryForObject(
                 "SELECT MAX(fetched_at) FROM articles", Instant.class);
 

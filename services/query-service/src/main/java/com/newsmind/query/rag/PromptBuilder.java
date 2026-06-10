@@ -20,7 +20,7 @@ public class PromptBuilder {
         var sb = new StringBuilder();
         sb.append("Answer the following question using only the news articles below.\n");
         sb.append("At the end of your answer, list which article numbers you used as sources.\n\n");
-        sb.append("Question: ").append(question).append("\n\nArticles:\n");
+        sb.append("Question: <user_question>").append(question).append("</user_question>\n\nArticles:\n");
         for (int i = 0; i < articles.size(); i++) {
             ArticleContext a = articles.get(i);
             sb.append(String.format("[%d] %s (%s)%n%s%n%s%n%n",
@@ -28,7 +28,7 @@ public class PromptBuilder {
                     a.source(),
                     a.publishedAt(),
                     a.title(),
-                    a.content().substring(0, Math.min(500, a.content().length()))
+                    a.content().substring(0, Math.min(2000, a.content().length()))
             ));
         }
         sb.append("Answer:");

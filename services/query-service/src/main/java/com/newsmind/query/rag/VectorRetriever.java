@@ -22,6 +22,9 @@ public class VectorRetriever {
     public List<ArticleContext> findSimilar(float[] questionEmbedding) {
         return jdbcTemplate.query(conn -> {
             PGvector.addVectorType(conn);
+            try (var setProbes = conn.prepareStatement("SET LOCAL ivfflat.probes = 10")) {
+                setProbes.execute();
+            }
             var ps = conn.prepareStatement("""
                     SELECT a.title, c.chunk_text AS content, a.url, a.source, a.published_at
                     FROM chunks c

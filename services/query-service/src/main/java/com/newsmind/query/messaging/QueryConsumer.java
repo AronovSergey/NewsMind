@@ -1,9 +1,9 @@
 package com.newsmind.query.messaging;
 
+import com.newsmind.common.openai.EmbeddingClient;
 import com.newsmind.query.cache.QueryCache;
 import com.newsmind.query.config.RabbitMQConfig;
 import com.newsmind.query.rag.ArticleContext;
-import com.newsmind.query.rag.EmbeddingClient;
 import com.newsmind.query.rag.LlmClient;
 import com.newsmind.query.rag.PromptBuilder;
 import com.newsmind.query.rag.VectorRetriever;

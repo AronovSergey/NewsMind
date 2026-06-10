@@ -5,6 +5,7 @@ import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Jsoup;
 import org.springframework.stereotype.Component;
 
 import java.net.HttpURLConnection;
@@ -17,12 +18,16 @@ import java.util.List;
 public class FeedParser {
 
     public List<RawArticle> parse(String feedUrl, String sourceName) {
+        HttpURLConnection connection = null;
         try {
-            HttpURLConnection connection = (HttpURLConnection) URI.create(feedUrl).toURL().openConnection();
+            connection = (HttpURLConnection) URI.create(feedUrl).toURL().openConnection();
             connection.setRequestProperty("User-Agent", "Mozilla/5.0 (compatible; NewsMind/1.0)");
             connection.setConnectTimeout(10_000);
             connection.setReadTimeout(10_000);
-            SyndFeed feed = new SyndFeedInput().build(new XmlReader(connection.getInputStream()));
+            SyndFeed feed;
+            try (var reader = new XmlReader(connection.getInputStream())) {
+                feed = new SyndFeedInput().build(reader);
+            }
             return feed.getEntries().stream()
                     .filter(e -> e.getLink() != null && !e.getLink().isBlank())
                     .map(e -> toArticle(e, sourceName))
@@ -30,13 +35,17 @@ public class FeedParser {
         } catch (Exception e) {
             log.error("Failed to parse feed {}: {}", feedUrl, e.getMessage());
             return List.of();
+        } finally {
+            if (connection != null) connection.disconnect();
         }
     }
 
     private RawArticle toArticle(SyndEntry entry, String sourceName) {
-        String content = entry.getContents().isEmpty()
+        String rawContent = entry.getContents().isEmpty()
                 ? (entry.getDescription() != null ? entry.getDescription().getValue() : "")
                 : entry.getContents().getFirst().getValue();
+
+        String content = Jsoup.parse(rawContent != null ? rawContent : "").text();
 
         Instant publishedAt = entry.getPublishedDate() != null
                 ? entry.getPublishedDate().toInstant()
@@ -44,7 +53,7 @@ public class FeedParser {
 
         return new RawArticle(
                 entry.getTitle(),
-                content != null ? content : "",
+                content,
                 entry.getLink(),
                 sourceName,
                 publishedAt

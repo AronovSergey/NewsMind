@@ -1,7 +1,7 @@
 package com.newsmind.embedding.messaging;
 
+import com.newsmind.common.openai.EmbeddingClient;
 import com.newsmind.embedding.config.RabbitMQConfig;
-import com.newsmind.embedding.openai.EmbeddingClient;
 import com.newsmind.embedding.storage.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

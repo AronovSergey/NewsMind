@@ -80,6 +80,27 @@ backend service to another, stop and route it through a RabbitMQ exchange instea
 
 ---
 
+## Shared library (`/services/common/`)
+
+A plain Maven JAR (no Spring Boot main class, no port, no Dockerfile). Contains code shared
+between `embedding-service` and `query-service`:
+
+- `com.newsmind.common.openai.OpenAIConfig` — `@Configuration` that exposes a single
+  `OpenAIClient` bean, shared by all OpenAI callers in the service
+- `com.newsmind.common.openai.EmbeddingClient` — `@Component` that calls the embeddings API
+  with exponential-backoff retry
+
+Both `embedding-service` and `query-service` declare `common` as a Maven dependency and
+extend their `@SpringBootApplication` scan to include `com.newsmind.common`:
+```java
+@SpringBootApplication(scanBasePackages = {"com.newsmind.<service>", "com.newsmind.common"})
+```
+
+Do not add runtime infrastructure (RabbitMQ listeners, DB access, HTTP endpoints) to `common`.
+Keep it a pure utility library.
+
+---
+
 ## Services — one job per service
 
 All four backend services share the same technology: **Java 21 + Spring Boot 3**.
@@ -225,11 +246,18 @@ CREATE INDEX ON chunks (article_id);
 - **Spring AMQP:**
   - `@RabbitListener` for consumers
   - `RabbitTemplate.convertSendAndReceive()` for request/reply in the Gateway
-  - `Jackson2JsonMessageConverter` as the message converter on all services — messages are JSON
+  - `Jackson2JsonMessageConverter` as the message converter on all services — always construct it with the Spring Boot-configured `ObjectMapper` bean: `new Jackson2JsonMessageConverter(objectMapper)`. The no-arg constructor creates a vanilla `ObjectMapper` that serializes `Instant` as a numeric timestamp instead of ISO-8601 strings, which breaks frontend date rendering.
 - **Spring Data / JPA:**
   - Use `spring-boot-starter-data-jpa` with Hibernate for all standard CRUD operations
+  - **Exception — idempotent inserts:** Never use `existsByX + save` for deduplication. That pair is not atomic and throws `DataIntegrityViolationException` on a race, aborting the entire operation. Use a native `@Query` with `INSERT ... ON CONFLICT DO NOTHING` and check the returned row count instead:
+    ```java
+    @Transactional @Modifying
+    @Query(value = "INSERT INTO ... ON CONFLICT (url) DO NOTHING", nativeQuery = true)
+    int insertIfAbsent(...);
+    ```
   - Use native JDBC (`JdbcTemplate`) for vector similarity search — Hibernate doesn't support pgvector natively
   - Use `pgvector-java` (`PGvector`) for the `vector(1536)` column type; call `PGvector.addVectorType(conn)` before preparing the statement
+  - **pgvector recall:** Before every `<=>` cosine similarity query, execute `SET LOCAL ivfflat.probes = 10` on the same connection. The default of `probes = 1` with `lists = 100` searches only 1% of the index, giving very poor recall regardless of index quality.
 - **Database migrations:** Flyway (`flyway-core` + `flyway-database-postgresql`) in all DB-touching services. Always `baseline-on-migrate: true`.
 - **OpenAI calls:**
   - Use the official `openai-java` SDK
@@ -290,6 +318,7 @@ newsmind/
 ├── .env / .env.example
 ├── services/
 │   ├── pom.xml                     ← Maven parent pom
+│   ├── common/                     ← shared library (OpenAI client bean, EmbeddingClient)
 │   ├── rss-fetcher/
 │   ├── embedding-service/
 │   ├── query-service/

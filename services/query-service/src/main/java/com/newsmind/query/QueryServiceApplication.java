@@ -3,7 +3,7 @@ package com.newsmind.query;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.newsmind.query", "com.newsmind.common"})
 public class QueryServiceApplication {
 
 	public static void main(String[] args) {
