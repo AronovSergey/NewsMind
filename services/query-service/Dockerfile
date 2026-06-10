@@ -7,7 +7,7 @@ COPY query-service/.mvn ./.mvn
 RUN chmod +x mvnw && ./mvnw -f pom.xml install -N -q
 
 COPY common ./common
-RUN ./mvnw -pl common install -DskipTests -q
+RUN ./mvnw -f common/pom.xml install -DskipTests -q
 
 COPY query-service ./query-service
 WORKDIR /app/query-service
