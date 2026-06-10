@@ -1,5 +1,6 @@
 package com.newsmind.embedding.openai;
 
+import com.newsmind.common.openai.EmbeddingClient;
 import com.openai.client.OpenAIClient;
 import com.openai.models.CreateEmbeddingResponse;
 import com.openai.models.Embedding;
@@ -40,7 +41,6 @@ class EmbeddingClientTest {
 
     @BeforeEach
     void setUp() {
-        ReflectionTestUtils.setField(embeddingClient, "apiKey", "test-key");
         ReflectionTestUtils.setField(embeddingClient, "embeddingModel", "text-embedding-3-small");
         ReflectionTestUtils.setField(embeddingClient, "client", openAIClient);
     }

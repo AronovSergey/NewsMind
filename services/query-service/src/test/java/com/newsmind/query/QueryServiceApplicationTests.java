@@ -1,8 +1,9 @@
 package com.newsmind.query;
 
 import com.newsmind.query.messaging.QueryConsumer;
-import com.newsmind.query.rag.EmbeddingClient;
+import com.newsmind.common.openai.EmbeddingClient;
 import com.newsmind.query.rag.LlmClient;
+import com.openai.client.OpenAIClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -18,6 +19,9 @@ class QueryServiceApplicationTests {
 
     @MockitoBean
     LlmClient llmClient;
+
+    @MockitoBean
+    OpenAIClient openAIClient;
 
     @Test
     void contextLoads() {
