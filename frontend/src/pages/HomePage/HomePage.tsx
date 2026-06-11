@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAsk } from '../../hooks/useAsk';
+import { useAsk } from '../../api/useAsk';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import LoadingSkeleton from '../../components/LoadingSkeleton/LoadingSkeleton';
 import AnswerCard from '../../components/AnswerCard/AnswerCard';

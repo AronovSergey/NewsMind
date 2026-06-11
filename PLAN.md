@@ -317,7 +317,7 @@ When starting a Claude Code session, tell it which task you're on:
   - CD pipeline runs both: `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build`
   - **Commit:** `chore: move app services to prod compose, keep base as infra only`
 
-- [ ] **Task 46** — Fetch history page
+- [x] **Task 46** — Fetch history page
   - **DB (V5 migration — add to all 3 Flyway services):** `fetch_runs` table (`id`, `started_at`, `completed_at`, `total_fetched`, `total_new`) + `fetch_run_sources` table (`id`, `fetch_run_id` FK, `source_name`, `fetched`, `new_articles`)
   - **RSS Fetcher:** add `FetchRun` + `FetchRunSource` JPA entities and repositories; modify `FetchScheduler.fetchAll()` to create a run record, save per-source stats, update `completed_at` on finish
   - **API Gateway:** add `GET /api/fetches` (last 20 runs DESC) in new `FetchController.java` using `JdbcTemplate`; DTOs: `FetchRunDto` + `FetchRunSourceDto` (records)

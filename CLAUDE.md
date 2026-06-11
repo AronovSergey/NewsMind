@@ -367,6 +367,7 @@ Tests that use Testcontainers spin up their own PostgreSQL container — they do
 | `Could not resolve placeholder 'OPENAI_API_KEY'` in `@SpringBootTest` | `OpenAIClient` is a Spring bean (from `OpenAIConfig` in `common`) but not mocked — Spring tries to instantiate it and fails on the missing env var | Add `@MockitoBean OpenAIClient openAIClient` to the test class |
 | `null value in column "id"` in a Testcontainers test | Test overrides `spring.jpa.hibernate.ddl-auto=create-drop`, so Hibernate creates the schema without `DEFAULT gen_random_uuid()`, breaking native `INSERT` statements that omit `id` | Remove the `ddl-auto` override — let Flyway run the migrations (V1 sets the proper column default) |
 | `Could not find artifact com.newsmind:common:jar:0.0.1-SNAPSHOT` locally | `common` JAR not yet installed in local Maven repo | Run `make install-common` once, or let `make test-embedding` / `make test-query` do it automatically |
+| `Schema-validation: missing table [fetch_run_sources]` in `RssFetcherApplicationTests` | `ddl-auto=validate` runs against local Postgres which doesn't have V5 yet — V5 is applied by `api-gateway` on startup, not `rss-fetcher` | The smoke test uses `@TestPropertySource(properties = "spring.jpa.hibernate.ddl-auto=none")` to skip schema validation; no action needed |
 
 ---
 
