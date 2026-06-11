@@ -28,6 +28,8 @@ services:
         condition: service_healthy
       postgres:
         condition: service_healthy
+      api-gateway:
+        condition: service_healthy
 
   embedding-service:
     build:
@@ -50,6 +52,8 @@ services:
       rabbitmq:
         condition: service_healthy
       postgres:
+        condition: service_healthy
+      api-gateway:
         condition: service_healthy
 
   query-service:
@@ -81,6 +85,8 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+      api-gateway:
+        condition: service_healthy
 
   api-gateway:
     build:
@@ -88,6 +94,12 @@ services:
       dockerfile: api-gateway/Dockerfile
     ports:
       - "8080:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
     environment:
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672

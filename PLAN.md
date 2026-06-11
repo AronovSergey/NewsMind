@@ -317,6 +317,19 @@ When starting a Claude Code session, tell it which task you're on:
   - CD pipeline runs both: `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build`
   - **Commit:** `chore: move app services to prod compose, keep base as infra only`
 
+- [ ] **Task 46** — Fetch history page
+  - **DB (V5 migration — add to all 3 Flyway services):** `fetch_runs` table (`id`, `started_at`, `completed_at`, `total_fetched`, `total_new`) + `fetch_run_sources` table (`id`, `fetch_run_id` FK, `source_name`, `fetched`, `new_articles`)
+  - **RSS Fetcher:** add `FetchRun` + `FetchRunSource` JPA entities and repositories; modify `FetchScheduler.fetchAll()` to create a run record, save per-source stats, update `completed_at` on finish
+  - **API Gateway:** add `GET /api/fetches` (last 20 runs DESC) in new `FetchController.java` using `JdbcTemplate`; DTOs: `FetchRunDto` + `FetchRunSourceDto` (records)
+  - **API Gateway:** support `page`, `size`, `sort`, `source` query params on `GET /api/fetches` for server-side pagination, sorting, and filtering
+  - **Frontend:** add `FetchRun`/`FetchRunSource` types; `useFetches` hook (accepts page/sort/filter params); `FetchesPage` at `/fetches` with nav link in `Header`
+  - **Table columns:** Started At · Completed At · Total Fetched · Total New · Sources (comma-separated)
+  - **Pagination:** page controls (prev/next + page number), configurable page size
+  - **Sort:** click column headers to toggle ASC/DESC on any column
+  - **Filter:** filter by source name (dropdown of known sources) and date range
+  - **Validate:** `make test-fetcher` + `make test-gateway` + `make test-frontend` all green; trigger a fetch → `GET /api/fetches` returns data → `/fetches` table renders, pagination/sort/filter all work
+  - **Commit:** `feat: fetch history page with run tracking`
+
 - [x] **Task 45** — Makefile for local development
   - `make up` — starts all 4 Spring Boot services + Vite frontend in parallel
   - `make down` — kills all service processes and Vite

@@ -1,26 +1,23 @@
-package com.newsmind.fetcher.feed;
+package com.newsmind.gateway;
 
-import com.newsmind.fetcher.domain.ArticleRepository;
-import com.newsmind.fetcher.scheduler.FetchScheduler;
+import com.newsmind.gateway.service.QueryBrokerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-import java.time.Instant;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Testcontainers
-class ArticleDeduplicatorTest {
+class ArticleDeduplicationTest {
 
     @Container
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(
@@ -37,27 +34,27 @@ class ArticleDeduplicatorTest {
     }
 
     @MockitoBean
-    FetchScheduler fetchScheduler;
+    QueryBrokerService queryBrokerService;
 
     @Autowired
-    ArticleDeduplicator deduplicator;
-
-    @Autowired
-    ArticleRepository articleRepository;
+    JdbcTemplate jdbcTemplate;
 
     @Test
-    void insertSameArticleTwice_onlyOneRowInDb() {
-        RawArticle article = new RawArticle(
-                "Test Title", "Test content",
-                "https://example.com/unique-article-" + System.currentTimeMillis(),
-                "Test Source", Instant.now()
-        );
+    void insertSameUrlTwice_onlyOneRowInDb() {
+        String url = "https://example.com/test-" + System.currentTimeMillis();
 
-        List<RawArticle> firstInsert = deduplicator.insertNew(List.of(article));
-        List<RawArticle> secondInsert = deduplicator.insertNew(List.of(article));
+        int first = jdbcTemplate.update(
+                "INSERT INTO articles (title, content, url, source) VALUES (?, ?, ?, ?) ON CONFLICT (url) DO NOTHING",
+                "Title", "Content", url, "TestSource");
+        int second = jdbcTemplate.update(
+                "INSERT INTO articles (title, content, url, source) VALUES (?, ?, ?, ?) ON CONFLICT (url) DO NOTHING",
+                "Title", "Content", url, "TestSource");
 
-        assertThat(firstInsert).hasSize(1);
-        assertThat(secondInsert).isEmpty();
-        assertThat(articleRepository.existsByUrl(article.url())).isTrue();
+        assertThat(first).isEqualTo(1);
+        assertThat(second).isEqualTo(0);
+
+        Long count = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM articles WHERE url = ?", Long.class, url);
+        assertThat(count).isEqualTo(1);
     }
 }

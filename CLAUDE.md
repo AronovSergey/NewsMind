@@ -204,13 +204,11 @@ Exchange: query.answered   (direct)   Query Service    → API Gateway (reply qu
 
 ### PostgreSQL (`newsmind` database)
 
-Schema is managed by **Flyway** migrations in each DB-touching service (`rss-fetcher`, `embedding-service`, `query-service`). All three services carry the same migration files and run them on startup with `baseline-on-migrate: true`.
+All Flyway migrations live in `api-gateway/src/main/resources/db/migration/` — it is the sole schema owner. Never add migration files to any other service.
 
-Migration files live at `src/main/resources/db/migration/` in each service:
-- `V1__init.sql` — baseline: creates `articles` table + pgvector extension
-- `V2__create_chunks_table.sql` — creates `chunks` table with vector index
-- `V3__migrate_embeddings_to_chunks.sql` — one-time data migration for existing rows
-- `V4__drop_embedding_column.sql` — removes the `embedding` column from `articles`
+In production (`docker-compose.prod.yml`), `rss-fetcher`, `embedding-service`, and `query-service` all declare `depends_on: api-gateway: condition: service_healthy`, ensuring Flyway has finished before they start.
+
+Testcontainers DB tests live in `api-gateway` — since it owns Flyway, migrations run automatically against the test container, giving tests a correctly structured DB with no extra setup.
 
 **Current schema (post-migrations):**
 
@@ -342,7 +340,7 @@ newsmind/
 └── frontend/
 ```
 
-Each service follows the same layout: `Dockerfile`, `pom.xml`, `src/main/java/com/newsmind/<service>/`, `src/main/resources/application.yaml`, and `src/main/resources/db/migration/` (Flyway V1–V4).
+Each service follows the same layout: `Dockerfile`, `pom.xml`, `src/main/java/com/newsmind/<service>/`, `src/main/resources/application.yaml`. Only `api-gateway` has `src/main/resources/db/migration/` (Flyway migrations).
 
 ---
 
@@ -359,7 +357,7 @@ After completing all code changes in a response, run tests once — not after ea
 
 `make test-embedding` and `make test-query` automatically install the parent POM and `common` module into the local Maven repo before running (via the `install-common` prerequisite in the Makefile). No manual step needed.
 
-Tests that use Testcontainers (e.g. `ArticleDeduplicatorTest`) spin up their own PostgreSQL container — they do **not** need `make infra`. Other `@SpringBootTest` tests that connect to RabbitMQ or the shared Postgres do require `make infra` first.
+Tests that use Testcontainers spin up their own PostgreSQL container — they do **not** need `make infra`. Other `@SpringBootTest` tests that connect to RabbitMQ or the shared Postgres do require `make infra` first.
 
 ### Common test failure patterns
 
