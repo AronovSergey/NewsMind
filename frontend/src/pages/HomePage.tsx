@@ -1,8 +1,8 @@
 import { useAsk } from '../hooks/useAsk';
-import { SearchBar } from '../components/SearchBar';
-import { LoadingSkeleton } from '../components/LoadingSkeleton';
-import { AnswerCard } from '../components/AnswerCard';
-import { SourceCard } from '../components/SourceCard';
+import { SearchBar } from '../components/SearchBar/SearchBar';
+import { LoadingSkeleton } from '../components/LoadingSkeleton/LoadingSkeleton';
+import { AnswerCard } from '../components/AnswerCard/AnswerCard';
+import { SourceCard } from '../components/SourceCard/SourceCard';
 
 const SUGGESTIONS = [
   'What happened in AI this week?',
