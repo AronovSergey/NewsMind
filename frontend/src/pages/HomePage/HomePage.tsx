@@ -18,14 +18,13 @@ const HomePage: React.FunctionComponent = () => {
     <main className="flex-1 w-full max-w-3xl mx-auto px-4 py-12 sm:py-20">
 
       <div className="text-center mb-10">
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg shadow-blue-200 mb-5">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-slate-900 shadow-md mb-5">
           <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
           </svg>
         </div>
-        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
-          <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">News</span>
-          <span className="text-gray-900">Mind</span>
+        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-slate-900">
+          NewsMind
         </h1>
         <p className="mt-3 text-gray-500 text-base max-w-sm mx-auto">
           Ask anything. Get sourced answers from today's news.
@@ -41,7 +40,7 @@ const HomePage: React.FunctionComponent = () => {
               key={s}
               onClick={() => ask(s)}
               className="px-4 py-2 text-sm rounded-full bg-white border border-gray-200 text-gray-600
-                         hover:border-blue-300 hover:text-blue-600 hover:bg-blue-50 transition-all shadow-sm cursor-pointer"
+                         hover:border-slate-400 hover:text-slate-800 hover:bg-slate-50 transition-all shadow-sm cursor-pointer"
             >
               {s}
             </button>
