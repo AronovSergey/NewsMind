@@ -22,8 +22,8 @@ const SourceCard: React.FunctionComponent<IProps> = ({ source }) => {
       href={source.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="block bg-white dark:bg-zinc-900 rounded-2xl border border-gray-200 dark:border-zinc-800 shadow-sm p-4
-                 hover:border-purple-300 dark:hover:border-purple-600 hover:shadow-md hover:-translate-y-0.5 transition-all duration-150 group"
+      className="block bg-white dark:bg-zinc-900 rounded-2xl border border-gray-200 dark:border-purple-900/50 shadow-sm p-4
+                 hover:border-purple-300 dark:hover:border-purple-500 hover:shadow-md dark:hover:shadow-purple-950 hover:-translate-y-0.5 transition-all duration-150 group"
     >
       <p className="text-sm font-medium text-gray-800 dark:text-zinc-100 line-clamp-2 group-hover:text-purple-700 dark:group-hover:text-purple-400 transition-colors leading-snug">
         {source.title}

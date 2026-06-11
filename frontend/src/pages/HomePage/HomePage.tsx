@@ -4,6 +4,7 @@ import SearchBar from '../../components/SearchBar/SearchBar';
 import LoadingSkeleton from '../../components/LoadingSkeleton/LoadingSkeleton';
 import AnswerCard from '../../components/AnswerCard/AnswerCard';
 import SourceCard from '../../components/SourceCard/SourceCard';
+import Logo from '../../components/Logo/Logo';
 
 const SUGGESTIONS = [
   { text: 'What happened in AI this week?',  icon: '🧠' },
@@ -16,26 +17,16 @@ const HomePage: React.FunctionComponent = () => {
 
   return (
     <main className="flex-1 w-full max-w-3xl mx-auto px-4 py-12 sm:py-20 relative">
-
-      {/* Ambient glow orb — wrapper positions, inner breathes */}
-      <div className="pointer-events-none absolute left-1/2 -top-16 -translate-x-1/2 w-[680px] h-[300px] -z-10">
-        <div className="w-full h-full rounded-full bg-purple-500/10 dark:bg-purple-500/22 blur-[90px] nm-breathe" />
+      <div className="hidden dark:block pointer-events-none fixed top-0 inset-x-0 h-[60vh] -z-10 overflow-hidden">
+        <div className="absolute -top-1/4 left-1/2 -translate-x-1/2 w-[110vw] h-full rounded-[50%] blur-[180px] bg-purple-500/0 dark:bg-purple-600/[0.06]" />
+        <div className="absolute -top-1/3 left-1/2 -translate-x-[40%] w-[70vw] h-3/4 rounded-[50%] blur-[140px] bg-violet-500/0 dark:bg-violet-400/[0.03]" />
       </div>
 
       <div className="text-center mb-10">
-        <div
-          className="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-5"
-          style={{
-            background: 'linear-gradient(135deg, #7c3aed 0%, #4338ca 100%)',
-            boxShadow: '0 4px 28px rgba(124,58,237,0.45), 0 0 0 1px rgba(124,58,237,0.15)',
-          }}
-        >
-          <span className="text-white font-bold text-2xl" style={{ fontFamily: 'Georgia, serif' }}>N</span>
-        </div>
-        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-gray-900 dark:text-white">
-          NewsMind
+        <h1 className="mb-2">
+          <Logo size="lg" />
         </h1>
-        <p className="mt-3 text-gray-500 dark:text-zinc-400 text-base max-w-sm mx-auto">
+        <p className="mt-3 text-gray-500 dark:text-zinc-400 text-base">
           Ask anything. Get sourced answers from today's news.
         </p>
         <div className="mt-2.5 flex items-center justify-center gap-1.5 text-xs">
