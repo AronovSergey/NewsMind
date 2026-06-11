@@ -22,13 +22,13 @@ const SourceCard: React.FunctionComponent<IProps> = ({ source }) => {
       href={source.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="block bg-white rounded-2xl border border-gray-200 shadow-sm p-4
-                 hover:border-slate-400 hover:shadow-md hover:-translate-y-0.5 transition-all duration-150 group"
+      className="block bg-white dark:bg-zinc-900 rounded-2xl border border-gray-200 dark:border-zinc-800 shadow-sm p-4
+                 hover:border-purple-300 dark:hover:border-purple-600 hover:shadow-md hover:-translate-y-0.5 transition-all duration-150 group"
     >
-      <p className="text-sm font-medium text-gray-800 line-clamp-2 group-hover:text-slate-900 transition-colors leading-snug">
+      <p className="text-sm font-medium text-gray-800 dark:text-zinc-100 line-clamp-2 group-hover:text-purple-700 dark:group-hover:text-purple-400 transition-colors leading-snug">
         {source.title}
       </p>
-      <div className="mt-3 flex items-center gap-1.5 text-xs text-gray-400">
+      <div className="mt-3 flex items-center gap-1.5 text-xs text-gray-400 dark:text-zinc-500">
         <img
           src={`https://www.google.com/s2/favicons?domain=${domain}&sz=16`}
           alt=""
@@ -37,10 +37,10 @@ const SourceCard: React.FunctionComponent<IProps> = ({ source }) => {
           className="rounded-sm opacity-70 shrink-0"
           onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
         />
-        <span className="font-medium text-gray-500 truncate">{source.source}</span>
+        <span className="font-medium text-gray-500 dark:text-zinc-400 truncate">{source.source}</span>
         <span className="shrink-0">·</span>
         <span className="shrink-0">{timeAgo(source.publishedAt)}</span>
-        <span className="ml-auto text-slate-400 shrink-0 group-hover:translate-x-0.5 transition-transform">↗</span>
+        <span className="ml-auto text-purple-400 dark:text-purple-500 shrink-0 group-hover:translate-x-0.5 transition-transform">↗</span>
       </div>
     </a>
   );

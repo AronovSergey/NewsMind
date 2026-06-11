@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 body {
-  background: #ffffff;
+  background-color: #ffffff;
+  background-image: radial-gradient(rgba(147, 51, 234, 0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.dark body {
+  background-color: #000000;
+  background-image: radial-gradient(rgba(147, 51, 234, 0.35) 1px, transparent 1px);
+  background-size: 28px 28px;
 }

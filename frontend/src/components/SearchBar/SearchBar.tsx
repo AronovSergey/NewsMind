@@ -16,11 +16,11 @@ const SearchBar: React.FunctionComponent<IProps> = ({ onSearch, loading }) => {
 
   return (
     <form onSubmit={handleSubmit} className="w-full">
-      <div className={`flex items-center gap-3 bg-white rounded-2xl border shadow-sm px-4 py-3 transition-all duration-200
+      <div className={`flex items-center gap-3 bg-white dark:bg-zinc-900 rounded-2xl border shadow-sm px-4 py-3 transition-all duration-200
                       ${loading
-                        ? 'border-gray-200'
-                        : 'border-gray-200 focus-within:border-slate-400 focus-within:shadow-md'}`}>
-        <svg className="w-5 h-5 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        ? 'border-gray-200 dark:border-zinc-800'
+                        : 'border-gray-200 dark:border-zinc-800 focus-within:border-purple-400 dark:focus-within:border-purple-500 focus-within:shadow-md focus-within:shadow-purple-50 dark:focus-within:shadow-purple-900/20'}`}>
+        <svg className="w-5 h-5 text-gray-400 dark:text-zinc-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
 
@@ -31,8 +31,8 @@ const SearchBar: React.FunctionComponent<IProps> = ({ onSearch, loading }) => {
           placeholder="Ask anything about today's news..."
           disabled={loading}
           autoFocus
-          className="flex-1 text-base text-gray-800 placeholder:text-gray-400 bg-transparent
-                     focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 text-base text-gray-800 dark:text-zinc-100 placeholder:text-gray-400 dark:placeholder:text-zinc-500
+                     bg-transparent focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
         />
 
         <button
@@ -40,8 +40,8 @@ const SearchBar: React.FunctionComponent<IProps> = ({ onSearch, loading }) => {
           disabled={loading || !value.trim()}
           aria-label="Ask"
           className="shrink-0 w-9 h-9 flex items-center justify-center rounded-xl
-                     bg-slate-900 text-white
-                     hover:bg-slate-700 active:bg-slate-800 transition-colors
+                     bg-purple-700 text-white
+                     hover:bg-purple-800 active:bg-purple-900 transition-colors
                      disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
         >
           {loading ? (
