@@ -3,11 +3,18 @@ import React from 'react';
 const Footer: React.FunctionComponent = () => {
   return (
     <footer className="border-t border-gray-100 py-5">
-      <div className="max-w-3xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div className="w-full px-8 flex flex-col items-center gap-2">
 
-        <p className="text-xs text-gray-400">Powered by live news · Updated hourly</p>
+        <p className="text-xs text-gray-400">Sourced from live news · Updated hourly</p>
 
         <div className="flex items-center gap-5">
+          <span className="text-xs text-gray-400">Built by Sergey Aronov · Contact:</span>
+          <a
+            href="mailto:aronovsergeyy@gmail.com"
+            className="text-xs text-gray-400 hover:text-gray-700 transition-colors"
+          >
+            aronovsergeyy@gmail.com
+          </a>
           <a
             href="https://github.com/AronovSergey"
             target="_blank"
