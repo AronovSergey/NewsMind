@@ -330,6 +330,21 @@ When starting a Claude Code session, tell it which task you're on:
   - **Validate:** `make test-fetcher` + `make test-gateway` + `make test-frontend` all green; trigger a fetch → `GET /api/fetches` returns data → `/fetches` table renders, pagination/sort/filter all work
   - **Commit:** `feat: fetch history page with run tracking`
 
+- [x] **Task 47** — Collapsible sidebar navigation
+  - Add `Sidebar` component with two states: collapsed (icon only, `w-14`) and expanded (icon + label, `w-52`)
+  - Sidebar sticks below the header (`sticky top-14 h-[calc(100vh-3.5rem)]`) and contains nav links to all pages
+  - Remove "Fetch History" link from `Header` — navigation belongs in the sidebar only
+  - Restructure `App.tsx` layout: Header full-width on top, then flex row of Sidebar + main content
+  - **Commit:** `feat(frontend): collapsible sidebar navigation`
+
+- [x] **Task 48** — Centralized route config
+  - Extract `ROUTES` constant to `src/routes.tsx` (path, label, icon, element, end)
+  - `App.tsx` maps `ROUTES` to `<Route>` elements — no hardcoded routes
+  - `Sidebar` maps `ROUTES` to `<NavLink>` items — no hardcoded nav items
+  - Extract icon components to `src/components/icons/` (IconHome, IconClock, IconBars) with barrel `index.ts`
+  - Adding a new page = one entry in `ROUTES`, nothing else changes
+  - **Commit:** `refactor(frontend): centralize routes config and extract icons folder`
+
 - [x] **Task 45** — Makefile for local development
   - `make up` — starts all 4 Spring Boot services + Vite frontend in parallel
   - `make down` — kills all service processes and Vite

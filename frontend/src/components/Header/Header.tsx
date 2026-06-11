@@ -12,15 +12,7 @@ const Header: React.FunctionComponent = () => {
           <Logo showIcon />
         </Link>
 
-        <div className="flex items-center gap-4">
-          <Link
-            to="/fetches"
-            className="text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-          >
-            Fetch History
-          </Link>
-          <ThemeToggle />
-        </div>
+        <ThemeToggle />
 
       </div>
     </header>
