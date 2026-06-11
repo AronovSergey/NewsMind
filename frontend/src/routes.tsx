@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import type { ReactElement } from 'react';
 import HomePage from './pages/HomePage/HomePage';
 import FetchesPage from './pages/FetchesPage/FetchesPage';
 import { IconHome, IconClock } from './components/icons';
