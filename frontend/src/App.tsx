@@ -1,17 +1,17 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
 import HomePage from './pages/HomePage/HomePage';
 
 export default function App() {
   return (
     <BrowserRouter>
       <div className="min-h-screen flex flex-col">
+        <Header />
         <Routes>
           <Route path="/" element={<HomePage />} />
         </Routes>
-
-        <footer className="py-5 text-center text-xs text-gray-400">
-          Powered by live news · Updated hourly
-        </footer>
+        <Footer />
       </div>
     </BrowserRouter>
   );
