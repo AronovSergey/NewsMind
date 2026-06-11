@@ -1,4 +1,6 @@
-export function LoadingSkeleton() {
+import React from 'react';
+
+const LoadingSkeleton: React.FunctionComponent = () => {
   return (
     <div className="w-full space-y-5 animate-pulse">
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
@@ -23,3 +25,5 @@ export function LoadingSkeleton() {
     </div>
   );
 }
+
+export default LoadingSkeleton;

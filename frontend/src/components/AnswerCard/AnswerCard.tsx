@@ -1,8 +1,10 @@
-interface AnswerCardProps {
+import React from 'react';
+
+interface IProps {
   answer: string;
 }
 
-export function AnswerCard({ answer }: AnswerCardProps) {
+const AnswerCard: React.FunctionComponent<IProps> = ({ answer }) => {
   return (
     <div className="w-full bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
       <div className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100/70">
@@ -17,3 +19,5 @@ export function AnswerCard({ answer }: AnswerCardProps) {
     </div>
   );
 }
+
+export default AnswerCard;

@@ -1,3 +1,4 @@
+import React from 'react';
 import type { SourceDto } from '../../types';
 
 function timeAgo(publishedAt: string | null): string {
@@ -20,11 +21,11 @@ function getDomain(url: string): string {
   }
 }
 
-interface SourceCardProps {
+interface IProps {
   source: SourceDto;
 }
 
-export function SourceCard({ source }: SourceCardProps) {
+const SourceCard: React.FunctionComponent<IProps> = ({ source }) => {
   const domain = getDomain(source.url);
 
   return (
@@ -55,3 +56,5 @@ export function SourceCard({ source }: SourceCardProps) {
     </a>
   );
 }
+
+export default SourceCard;

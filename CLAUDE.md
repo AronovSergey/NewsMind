@@ -165,6 +165,22 @@ Each is its own Maven project with its own Dockerfile.
   - Error state: friendly plain-English message — no stack traces, no HTTP codes
   - Mobile responsive — HR users often browse on phones
   - Footer: *"Powered by live news · Updated hourly"*
+- **Component conventions:**
+  - Every component and page lives in its own folder named after it: `ComponentName/ComponentName.tsx`. Tests sit alongside: `ComponentName/ComponentName.test.tsx`. This applies to both `src/components/` and `src/pages/`.
+  - All components use the `React.FunctionComponent<IProps>` pattern with a default export:
+    ```tsx
+    import React from 'react';
+
+    interface IProps { ... }
+
+    const MyComponent: React.FunctionComponent<IProps> = ({ ... }) => {
+      return ( ... );
+    }
+
+    export default MyComponent;
+    ```
+  - Props interface is always named `IProps` (local to the file — no need to export it)
+  - Import components as default imports: `import MyComponent from '../components/MyComponent/MyComponent'`
 
 ---
 

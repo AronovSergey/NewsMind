@@ -1,8 +1,9 @@
-import { useAsk } from '../hooks/useAsk';
-import { SearchBar } from '../components/SearchBar/SearchBar';
-import { LoadingSkeleton } from '../components/LoadingSkeleton/LoadingSkeleton';
-import { AnswerCard } from '../components/AnswerCard/AnswerCard';
-import { SourceCard } from '../components/SourceCard/SourceCard';
+import React from 'react';
+import { useAsk } from '../../hooks/useAsk';
+import SearchBar from '../../components/SearchBar/SearchBar';
+import LoadingSkeleton from '../../components/LoadingSkeleton/LoadingSkeleton';
+import AnswerCard from '../../components/AnswerCard/AnswerCard';
+import SourceCard from '../../components/SourceCard/SourceCard';
 
 const SUGGESTIONS = [
   'What happened in AI this week?',
@@ -10,7 +11,7 @@ const SUGGESTIONS = [
   "What's going on in tech today?",
 ];
 
-export function HomePage() {
+const HomePage: React.FunctionComponent = () => {
   const { ask, result, loading, error } = useAsk();
 
   return (
@@ -82,3 +83,5 @@ export function HomePage() {
     </main>
   );
 }
+
+export default HomePage;

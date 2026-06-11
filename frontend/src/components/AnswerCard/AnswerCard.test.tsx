@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { AnswerCard } from './AnswerCard'
+import AnswerCard from './AnswerCard'
 
 describe('AnswerCard', () => {
   it('renders the answer text', () => {

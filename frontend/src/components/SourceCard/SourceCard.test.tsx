@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { SourceCard } from './SourceCard'
+import SourceCard from './SourceCard'
 import type { SourceDto } from '../../types'
 
 const source: SourceDto = {

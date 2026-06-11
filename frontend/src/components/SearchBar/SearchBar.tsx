@@ -1,11 +1,11 @@
-import { useState, type FormEvent } from 'react';
+import React, { useState, type FormEvent } from 'react';
 
-interface SearchBarProps {
+interface IProps {
   onSearch: (question: string) => void;
   loading: boolean;
 }
 
-export function SearchBar({ onSearch, loading }: SearchBarProps) {
+const SearchBar: React.FunctionComponent<IProps> = ({ onSearch, loading }) => {
   const [value, setValue] = useState('');
 
   const handleSubmit = (e: FormEvent) => {
@@ -59,3 +59,5 @@ export function SearchBar({ onSearch, loading }: SearchBarProps) {
     </form>
   );
 }
+
+export default SearchBar;
