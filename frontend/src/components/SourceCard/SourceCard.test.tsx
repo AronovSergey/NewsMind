@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { SourceCard } from './SourceCard'
-import type { SourceDto } from '../types'
+import type { SourceDto } from '../../types'
 
 const source: SourceDto = {
   title: 'OpenAI announces GPT-5',

@@ -1,4 +1,4 @@
-import type { SourceDto } from '../types';
+import type { SourceDto } from '../../types';
 
 function timeAgo(publishedAt: string | null): string {
   if (!publishedAt) return 'recently';
