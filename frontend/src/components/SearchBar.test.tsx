@@ -29,8 +29,8 @@ describe('SearchBar', () => {
     expect(screen.getByRole('button')).toBeDisabled()
   })
 
-  it('shows Searching… label while loading', () => {
+  it('button keeps aria-label while loading', () => {
     render(<SearchBar onSearch={() => {}} loading={true} />)
-    expect(screen.getByRole('button')).toHaveTextContent('Searching…')
+    expect(screen.getByRole('button', { name: /ask/i })).toBeDisabled()
   })
 })
