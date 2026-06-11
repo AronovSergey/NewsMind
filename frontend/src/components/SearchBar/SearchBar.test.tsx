@@ -5,7 +5,7 @@ import SearchBar from './SearchBar'
 describe('SearchBar', () => {
   it('renders with placeholder text', () => {
     render(<SearchBar onSearch={() => {}} loading={false} />)
-    expect(screen.getByPlaceholderText("Ask anything about today's news...")).toBeInTheDocument()
+    expect(screen.getByText("Ask anything about today's news...")).toBeInTheDocument()
   })
 
   it('calls onSearch with trimmed value on submit', async () => {

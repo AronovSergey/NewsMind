@@ -6,22 +6,31 @@ import AnswerCard from '../../components/AnswerCard/AnswerCard';
 import SourceCard from '../../components/SourceCard/SourceCard';
 
 const SUGGESTIONS = [
-  'What happened in AI this week?',
-  'Latest news on climate change',
-  "What's going on in tech today?",
+  { text: 'What happened in AI this week?',  icon: '🧠' },
+  { text: 'Latest news on climate change',   icon: '🌍' },
+  { text: "What's going on in tech today?",  icon: '🚀' },
 ];
 
 const HomePage: React.FunctionComponent = () => {
   const { ask, result, loading, error } = useAsk();
 
   return (
-    <main className="flex-1 w-full max-w-3xl mx-auto px-4 py-12 sm:py-20">
+    <main className="flex-1 w-full max-w-3xl mx-auto px-4 py-12 sm:py-20 relative">
+
+      {/* Ambient glow orb — wrapper positions, inner breathes */}
+      <div className="pointer-events-none absolute left-1/2 -top-16 -translate-x-1/2 w-[680px] h-[300px] -z-10">
+        <div className="w-full h-full rounded-full bg-purple-500/10 dark:bg-purple-500/22 blur-[90px] nm-breathe" />
+      </div>
 
       <div className="text-center mb-10">
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-purple-700 shadow-md shadow-purple-200 dark:shadow-purple-900/40 mb-5">
-          <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-          </svg>
+        <div
+          className="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-5"
+          style={{
+            background: 'linear-gradient(135deg, #7c3aed 0%, #4338ca 100%)',
+            boxShadow: '0 4px 28px rgba(124,58,237,0.45), 0 0 0 1px rgba(124,58,237,0.15)',
+          }}
+        >
+          <span className="text-white font-bold text-2xl" style={{ fontFamily: 'Georgia, serif' }}>N</span>
         </div>
         <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-gray-900 dark:text-white">
           NewsMind
@@ -29,6 +38,12 @@ const HomePage: React.FunctionComponent = () => {
         <p className="mt-3 text-gray-500 dark:text-zinc-400 text-base max-w-sm mx-auto">
           Ask anything. Get sourced answers from today's news.
         </p>
+        <div className="mt-2.5 flex items-center justify-center gap-1.5 text-xs">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
+          <span className="font-medium text-emerald-600 dark:text-emerald-400">Live</span>
+          <span className="text-gray-300 dark:text-zinc-600">·</span>
+          <span className="text-gray-400 dark:text-zinc-500">Updated hourly</span>
+        </div>
       </div>
 
       <SearchBar onSearch={ask} loading={loading} />
@@ -37,14 +52,15 @@ const HomePage: React.FunctionComponent = () => {
         <div className="mt-5 flex flex-wrap justify-center gap-2">
           {SUGGESTIONS.map((s) => (
             <button
-              key={s}
-              onClick={() => ask(s)}
-              className="px-4 py-2 text-sm rounded-full bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800
+              key={s.text}
+              onClick={() => ask(s.text)}
+              className="flex items-center gap-2 px-4 py-2 text-sm rounded-full bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800
                          text-gray-600 dark:text-zinc-300
                          hover:border-purple-300 dark:hover:border-purple-600 hover:text-purple-700 dark:hover:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20
                          transition-all shadow-sm cursor-pointer"
             >
-              {s}
+              <span className="text-sm leading-none">{s.icon}</span>
+              {s.text}
             </button>
           ))}
         </div>
@@ -63,7 +79,7 @@ const HomePage: React.FunctionComponent = () => {
         )}
 
         {result && !loading && (
-          <div className="space-y-5">
+          <div className="space-y-5 nm-fade-up">
             <AnswerCard answer={result.answer} />
 
             {result.sources.length > 0 && (
@@ -72,8 +88,10 @@ const HomePage: React.FunctionComponent = () => {
                   Sources
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  {result.sources.slice(0, 3).map((source) => (
-                    <SourceCard key={source.url} source={source} />
+                  {result.sources.slice(0, 3).map((source, i) => (
+                    <div key={source.url} className="nm-fade-up" style={{ animationDelay: `${i * 0.07}s` }}>
+                      <SourceCard source={source} />
+                    </div>
                   ))}
                 </div>
               </div>
