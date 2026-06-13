@@ -345,6 +345,27 @@ When starting a Claude Code session, tell it which task you're on:
   - Adding a new page = one entry in `ROUTES`, nothing else changes
   - **Commit:** `refactor(frontend): centralize routes config and extract icons folder`
 
+- [x] **Task 49** — Fix `GET /api/fetches` 500 error (LazyInitializationException)
+  - Root cause: `open-in-view: false` closes the Hibernate session after `findAll()` returns; calling `run.getSources()` on detached entities throws `LazyInitializationException`
+  - Fix: add `@Transactional(readOnly = true)` to `FetchController.getFetches()` so the session stays open while the stream mapping runs
+  - **Commit:** `fix(gateway): add @Transactional to FetchController to resolve 500 on GET /api/fetches`
+
+- [x] **Task 50** — Redesign FetchesPage table UX
+  - Filters hidden by default; each filterable column header shows a small filter icon (funnel)
+  - Clicking the icon opens an inline filter row in `<thead>` for that column (text input for Sources, date-range picker for Started At)
+  - Icon turns purple when a filter is active; clicking again collapses the row
+  - Pagination redesigned as a dedicated footer section inside the table card: rows-per-page dropdown (10 / 20 / 50 / 100, default 10) + first / prev / `page/total` / next / last navigation
+  - `IconFilter` added to `src/components/icons/`
+  - **Commit:** `feat(frontend): per-column filter icons and pagination footer on FetchesPage`
+
+- [x] **Task 51** — Generic `Table<T>` component
+  - Extract reusable `Table<T>` from `FetchesPage` — manages sort, filter, and pagination state internally; exposes changes via `onChange(TableParams)`
+  - Split into four files: `Table.tsx` (state + composition), `TableHeader.tsx` (sort + filter row), `TableBody.tsx` (rows / loading / error / empty), `TablePagination.tsx` (footer)
+  - Types (`TableColumn<T>`, `TableParams`, `TablePage<T>`) moved to `src/types/table.types.ts`
+  - Column definitions extracted to `FetchesPage.columns.tsx`; `FetchesPage.tsx` reduced to data-fetching + `<Table>` render
+  - Adding a new table anywhere = define columns in a `.columns.tsx` file + wire one hook
+  - **Commit:** `refactor(frontend): extract generic Table component, split into sub-components`
+
 - [x] **Task 45** — Makefile for local development
   - `make up` — starts all 4 Spring Boot services + Vite frontend in parallel
   - `make down` — kills all service processes and Vite
