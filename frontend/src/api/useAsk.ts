@@ -33,7 +33,7 @@ async function postQuestion(question: string, signal: AbortSignal): Promise<Quer
 export function useAsk() {
   const abortRef = useRef<AbortController | null>(null);
 
-  const { mutateAsync, data, isPending, error, isError } = useMutation({
+  const mutation = useMutation({
     mutationFn: (question: string) => {
       abortRef.current?.abort();
       const controller = new AbortController();
@@ -42,10 +42,12 @@ export function useAsk() {
     },
   });
 
+  const { mutateAsync, data, isPending, error, isError } = mutation;
   const isAbortError = error instanceof DOMException && error.name === 'AbortError';
 
   return {
     ask: (question: string) => { mutateAsync(question).catch(() => {}); },
+    reset: () => { abortRef.current?.abort(); mutation.reset(); },
     result: isPending || isError ? null : (data ?? null),
     loading: isPending,
     error: isError && !isAbortError ? ((error as Error)?.message ?? 'Something went wrong. Please try again.') : null,

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useAsk } from '../../api/useAsk';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import LoadingSkeleton from '../../components/LoadingSkeleton/LoadingSkeleton';
@@ -13,7 +14,14 @@ const SUGGESTIONS = [
 ];
 
 const HomePage: React.FunctionComponent = () => {
-  const { ask, result, loading, error } = useAsk();
+  const { ask, reset, result, loading, error } = useAsk();
+  const location = useLocation();
+  const mounted = useRef(false);
+
+  useEffect(() => {
+    if (!mounted.current) { mounted.current = true; return; }
+    reset();
+  }, [location.key]);
 
   return (
     <main className="flex-1 w-full max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-20 relative">

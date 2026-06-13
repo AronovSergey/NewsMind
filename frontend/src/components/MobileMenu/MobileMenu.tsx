@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../routes';
 import { IconBars } from '../icons';
 
 const MobileMenu: React.FunctionComponent = () => {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+  function handleNavClick(path: string) {
+    setOpen(false);
+    navigate(path, { replace: true, state: { _t: Date.now() } });
+  }
 
   return (
     <>
@@ -30,7 +36,7 @@ const MobileMenu: React.FunctionComponent = () => {
               key={route.path}
               to={route.path}
               end={route.end}
-              onClick={() => setOpen(false)}
+              onClick={() => handleNavClick(route.path)}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-5 py-3.5 text-sm font-medium border-b border-gray-50 dark:border-zinc-900 transition-colors ${
                   isActive
