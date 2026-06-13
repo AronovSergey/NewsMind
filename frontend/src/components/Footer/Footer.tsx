@@ -7,8 +7,8 @@ const Footer: React.FunctionComponent = () => {
 
         <p className="text-xs text-gray-400 dark:text-zinc-500">Sourced from live news · Updated hourly</p>
 
-        <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-5">
-          <span className="text-xs text-gray-400 dark:text-zinc-500">Built by Sergey Aronov · Contact:</span>
+        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-5">
+          <span className="text-xs text-gray-400 dark:text-zinc-500">Built by Sergey Aronov</span>
           <a
             href="mailto:aronovsergeyy@gmail.com"
             className="flex items-center gap-1.5 text-xs text-gray-400 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-300 transition-colors"
