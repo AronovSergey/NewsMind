@@ -157,7 +157,7 @@ const HomePage: React.FunctionComponent = () => {
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {result.sources.slice(0, 3).map((source, i) => (
-                    <div key={source.url} className="nm-fade-up" style={{ animationDelay: `${i * 0.07}s` }}>
+                    <div key={source.url} className="nm-fade-up h-full" style={{ animationDelay: `${i * 0.07}s` }}>
                       <SourceCard source={source} />
                     </div>
                   ))}
