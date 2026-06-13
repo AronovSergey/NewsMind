@@ -1,7 +1,8 @@
 import type { ReactElement } from 'react';
 import HomePage from './pages/HomePage/HomePage';
 import FetchesPage from './pages/FetchesPage/FetchesPage';
-import { IconHome, IconClock } from './components/icons';
+import AboutPage from './pages/AboutPage/AboutPage';
+import { IconHome, IconClock, IconUser } from './components/icons';
 
 export interface AppRoute {
   path: string;
@@ -18,6 +19,13 @@ export const ROUTES: AppRoute[] = [
     icon: <IconHome />,
     element: <HomePage />,
     end: true,
+  },
+  {
+    path: '/about',
+    label: 'About',
+    icon: <IconUser />,
+    element: <AboutPage />,
+    end: false,
   },
   {
     path: '/fetches',

@@ -1,11 +1,72 @@
-import React, { useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useAsk } from '../../api/useAsk';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import LoadingSkeleton from '../../components/LoadingSkeleton/LoadingSkeleton';
 import AnswerCard from '../../components/AnswerCard/AnswerCard';
 import SourceCard from '../../components/SourceCard/SourceCard';
 import Logo from '../../components/Logo/Logo';
+
+const LS_KEY = 'nm-about-open';
+
+const AboutAccordion: React.FunctionComponent = () => {
+  const [open, setOpen] = useState(() => {
+    const stored = localStorage.getItem(LS_KEY);
+    return stored === null ? true : stored === 'true';
+  });
+
+  function toggle() {
+    setOpen(prev => {
+      localStorage.setItem(LS_KEY, String(!prev));
+      return !prev;
+    });
+  }
+
+  return (
+    <div className="mb-10 max-w-lg mx-auto rounded-2xl border border-dashed border-gray-200 dark:border-zinc-700/60 bg-gray-50/60 dark:bg-zinc-900/40 text-left overflow-hidden">
+      <button
+        onClick={toggle}
+        className="w-full flex items-center justify-between px-6 py-4 cursor-pointer group"
+        aria-expanded={open}
+      >
+        <span className="text-xs font-semibold uppercase tracking-widest text-gray-600 dark:text-zinc-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
+          About this project
+        </span>
+        <svg
+          className={`w-4 h-4 text-gray-400 dark:text-zinc-500 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+          viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      {open && (
+        <div className="px-6 pb-5">
+          <p className="text-sm text-gray-600 dark:text-zinc-300 leading-relaxed">
+            Built for{' '}
+            <span className="text-gray-900 dark:text-zinc-100 font-medium">learning purposes</span>
+            {' '}and developed with{' '}
+            <span className="text-gray-900 dark:text-zinc-100 font-medium">Claude Code</span>
+            {'. '}A distributed{' '}
+            <span className="text-gray-900 dark:text-zinc-100 font-medium">RAG</span>
+            {' '}pipeline that ingests live RSS feeds hourly, generates{' '}
+            <span className="text-gray-900 dark:text-zinc-100 font-medium">AI</span>
+            {' '}embeddings, and answers your questions with GPT-4o mini — every response backed by real, timestamped sources.
+          </p>
+          <Link
+            to="/about"
+            className="inline-flex items-center gap-1 mt-4 text-xs font-medium text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300 transition-colors"
+          >
+            More info
+            <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+            </svg>
+          </Link>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const SUGGESTIONS = [
   { text: 'What happened in AI this week?',  icon: '🧠' },
@@ -14,7 +75,7 @@ const SUGGESTIONS = [
 ];
 
 const HomePage: React.FunctionComponent = () => {
-  const { ask, reset, result, loading, error } = useAsk();
+  const { ask, reset, question, result, loading, error } = useAsk();
   const location = useLocation();
   const mounted = useRef(false);
 
@@ -31,6 +92,8 @@ const HomePage: React.FunctionComponent = () => {
       </div>
 
       <div className="text-center mb-10">
+        {!question && !loading && <AboutAccordion />}
+
         <h1 className="mb-2">
           <Logo size="lg" />
         </h1>
@@ -66,6 +129,12 @@ const HomePage: React.FunctionComponent = () => {
       )}
 
       <div className="mt-8">
+        {question && (
+          <p className="mb-4 text-base font-medium text-gray-800 dark:text-zinc-100">
+            {question}
+          </p>
+        )}
+
         {loading && <LoadingSkeleton />}
 
         {error && !loading && (

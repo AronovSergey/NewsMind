@@ -32,12 +32,14 @@ async function postQuestion(question: string, signal: AbortSignal): Promise<Quer
 
 export function useAsk() {
   const abortRef = useRef<AbortController | null>(null);
+  const questionRef = useRef<string>('');
 
   const mutation = useMutation({
     mutationFn: (question: string) => {
       abortRef.current?.abort();
       const controller = new AbortController();
       abortRef.current = controller;
+      questionRef.current = question;
       return postQuestion(question, controller.signal);
     },
   });
@@ -47,7 +49,8 @@ export function useAsk() {
 
   return {
     ask: (question: string) => { mutateAsync(question).catch(() => {}); },
-    reset: () => { abortRef.current?.abort(); mutation.reset(); },
+    reset: () => { abortRef.current?.abort(); questionRef.current = ''; mutation.reset(); },
+    question: isPending || data || (isError && !isAbortError) ? questionRef.current : '',
     result: isPending || isError ? null : (data ?? null),
     loading: isPending,
     error: isError && !isAbortError ? ((error as Error)?.message ?? 'Something went wrong. Please try again.') : null,
