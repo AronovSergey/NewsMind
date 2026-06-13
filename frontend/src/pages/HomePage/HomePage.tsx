@@ -16,7 +16,7 @@ const HomePage: React.FunctionComponent = () => {
   const { ask, result, loading, error } = useAsk();
 
   return (
-    <main className="flex-1 w-full max-w-3xl mx-auto px-4 py-12 sm:py-20 relative">
+    <main className="flex-1 w-full max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-20 relative">
       <div className="hidden dark:block pointer-events-none fixed top-0 inset-x-0 h-[60vh] -z-10 overflow-hidden">
         <div className="absolute -top-1/4 left-1/2 -translate-x-1/2 w-[110vw] h-full rounded-[50%] blur-[180px] bg-purple-500/0 dark:bg-purple-600/[0.06]" />
         <div className="absolute -top-1/3 left-1/2 -translate-x-[40%] w-[70vw] h-3/4 rounded-[50%] blur-[140px] bg-violet-500/0 dark:bg-violet-400/[0.03]" />

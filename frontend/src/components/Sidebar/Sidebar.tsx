@@ -10,7 +10,7 @@ const Sidebar: React.FunctionComponent<IProps> = () => {
 
   return (
     <aside
-      className={`sticky top-14 h-[calc(100vh-3.5rem)] flex-shrink-0 flex flex-col border-r border-gray-200 dark:border-zinc-800 bg-white dark:bg-black overflow-hidden transition-[width] duration-200 ${isOpen ? 'w-52' : 'w-14'}`}
+      className={`hidden sm:flex sticky top-14 h-[calc(100vh-3.5rem)] flex-shrink-0 flex-col border-r border-gray-200 dark:border-zinc-800 bg-white dark:bg-black overflow-hidden transition-[width] duration-200 ${isOpen ? 'w-52' : 'w-14'}`}
     >
       <button
         onClick={() => setIsOpen(o => !o)}
