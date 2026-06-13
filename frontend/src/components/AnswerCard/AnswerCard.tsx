@@ -5,7 +5,10 @@ interface IProps {
 }
 
 const AnswerCard: React.FunctionComponent<IProps> = ({ answer }) => {
-  const cleanAnswer = answer.replace(/\s*\[\d+\]/g, '');
+  const cleanAnswer = answer
+    .replace(/\n*\s*sources\s*(used)?:?\s*(\[\d+\][,\s]*)*/gi, '')
+    .replace(/\s*\[\d+\]/g, '')
+    .trimEnd();
 
   return (
     <div className="w-full bg-white dark:bg-zinc-900 rounded-2xl border border-gray-200 dark:border-purple-900/60 shadow-sm dark:shadow-purple-950 overflow-hidden">
