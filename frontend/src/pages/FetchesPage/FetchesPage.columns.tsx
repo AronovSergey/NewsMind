@@ -15,6 +15,7 @@ const COLUMNS: TableColumn<FetchRun>[] = [
     key: 'completedAt',
     label: 'Completed At',
     sortField: 'completedAt',
+    hideOnMobile: true,
     render: run => run.completedAt
       ? <span className="text-gray-500 dark:text-zinc-400 whitespace-nowrap">{timeAgo(run.completedAt)}</span>
       : <span className="text-amber-500">In progress</span>,
@@ -36,6 +37,7 @@ const COLUMNS: TableColumn<FetchRun>[] = [
     label: 'Sources',
     filterType: 'text',
     filterKey: 'source',
+    hideOnMobile: true,
     render: run => <span className="text-gray-500 dark:text-zinc-400 text-xs">{run.sources.map(s => s.sourceName).join(', ')}</span>,
   },
 ];

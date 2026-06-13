@@ -6,6 +6,7 @@ export interface TableColumn<T> {
   sortField?: string;
   filterType?: 'text' | 'daterange';
   filterKey?: string;
+  hideOnMobile?: boolean;
   render: (row: T) => ReactNode;
 }
 

@@ -21,7 +21,7 @@ function TablePagination<T>({ params, data, onPageChange, onSizeChange }: IProps
     <div className="px-4 py-3 flex flex-wrap items-center justify-between gap-3 border-t border-gray-100 dark:border-zinc-800 bg-gray-50/50 dark:bg-zinc-800/30 rounded-b-2xl">
 
       <div className="flex items-center gap-2">
-        <span className="text-sm text-gray-500 dark:text-zinc-400 whitespace-nowrap">Rows per page</span>
+        <span className="hidden sm:inline text-sm text-gray-500 dark:text-zinc-400 whitespace-nowrap">Rows per page</span>
         <select
           value={params.size}
           onChange={e => onSizeChange(Number(e.target.value))}
@@ -33,7 +33,9 @@ function TablePagination<T>({ params, data, onPageChange, onSizeChange }: IProps
 
       <div className="flex items-center gap-3">
         <span className="text-sm text-gray-400 dark:text-zinc-500 whitespace-nowrap">
-          {data && data.totalElements > 0 ? `${firstItem}–${lastItem} of ${data.totalElements}` : '0 results'}
+          {data && data.totalElements > 0
+            ? <><span className="hidden sm:inline">{firstItem}–{lastItem} of </span>{data.totalElements}</>
+            : '0'}
         </span>
         <div className="flex items-center gap-1">
           <button onClick={() => onPageChange(0)}                      disabled={isFirst} aria-label="First page"    className={btnCls}>«</button>

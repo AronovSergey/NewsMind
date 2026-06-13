@@ -25,7 +25,7 @@ function TableHeader<T>({ columns, params, filterOpenKey, onToggleSort, onToggle
     <thead>
       <tr className="border-b border-gray-100 dark:border-zinc-800">
         {columns.map(col => (
-          <th key={col.key} className="px-4 py-3 text-left">
+          <th key={col.key} className={`px-4 py-3 text-left${col.hideOnMobile ? ' hidden sm:table-cell' : ''}`}>
             <div className="flex items-center gap-1">
               {col.sortField ? (
                 <button
@@ -63,7 +63,7 @@ function TableHeader<T>({ columns, params, filterOpenKey, onToggleSort, onToggle
       {filterOpenKey && (
         <tr className="border-b border-purple-100 dark:border-purple-900/40 bg-purple-50/40 dark:bg-purple-900/10">
           {columns.map(col => (
-            <th key={col.key} className="px-4 py-2 font-normal">
+            <th key={col.key} className={`px-4 py-2 font-normal${col.hideOnMobile ? ' hidden sm:table-cell' : ''}`}>
               {col.filterKey === filterOpenKey && col.filterType === 'text' && (
                 <input
                   autoFocus
@@ -75,20 +75,20 @@ function TableHeader<T>({ columns, params, filterOpenKey, onToggleSort, onToggle
                 />
               )}
               {col.filterKey === filterOpenKey && col.filterType === 'daterange' && (
-                <div className="flex items-center gap-1.5">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1.5">
                   <input
                     autoFocus
                     type="datetime-local"
                     value={params.filters[`${col.filterKey}_from`] ?? ''}
                     onChange={e => onSetFilter(`${col.filterKey}_from`, e.target.value ? new Date(e.target.value).toISOString() : '')}
-                    className={inputCls}
+                    className={`${inputCls} w-full sm:w-auto`}
                   />
-                  <span className="text-gray-300 dark:text-zinc-600 select-none">→</span>
+                  <span className="hidden sm:inline text-gray-300 dark:text-zinc-600 select-none">→</span>
                   <input
                     type="datetime-local"
                     value={params.filters[`${col.filterKey}_to`] ?? ''}
                     onChange={e => onSetFilter(`${col.filterKey}_to`, e.target.value ? new Date(e.target.value).toISOString() : '')}
-                    className={inputCls}
+                    className={`${inputCls} w-full sm:w-auto`}
                   />
                 </div>
               )}

@@ -24,7 +24,7 @@ function TableBody<T>({ columns, data, isLoading, isError, errorMessage, emptyMe
       {!isLoading && !isError && data?.content.map(row => (
         <tr key={rowKey(row)} className="border-b border-gray-50 dark:border-zinc-800/60 hover:bg-gray-50 dark:hover:bg-zinc-800/40 transition-colors">
           {columns.map(col => (
-            <td key={col.key} className="px-4 py-3">
+            <td key={col.key} className={`px-4 py-3${col.hideOnMobile ? ' hidden sm:table-cell' : ''}`}>
               {col.render(row)}
             </td>
           ))}
