@@ -148,7 +148,7 @@ const HomePage: React.FunctionComponent = () => {
 
         {result && !loading && (
           <div className="space-y-5 nm-fade-up">
-            <AnswerCard answer={result.answer} sources={result.sources} />
+            <AnswerCard answer={result.answer} />
 
             {result.sources.length > 0 && (
               <div>
